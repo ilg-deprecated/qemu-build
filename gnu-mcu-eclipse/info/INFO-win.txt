@@ -1,0 +1,14 @@
+
+This is the GNU MCU Eclipse version of QEMU for Windows.
+
+If generally follows the official releases.
+
+The changes are currently small, but more Cortex-M support is planned.
+
+For more details and support, please read the GNU MCU Eclipse project pages from:
+
+  http://gnuarmeclipse.github.io
+
+Thank you for using GNU MCU Eclipse,
+
+Liviu Ionescu
