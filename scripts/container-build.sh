@@ -314,6 +314,14 @@ fi
 
 # -----------------------------------------------------------------------------
 
+# TODO: move them to XBB.
+if [ "${TARGET_OS}" == "linux" ]
+then
+  # yum provides '*/X11/extensions/Xext.h'
+  # yum provides '*/GL/gl.h'
+  yum install -y libX11-devel libXext-devel mesa-libGL-devel
+fi
+
 echo
 echo "Here we go..."
 echo
