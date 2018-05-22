@@ -58,6 +58,7 @@ function do_qemu()
         echo
         echo "Running qemu configure..."
       
+        local docdir
         if [ "${TARGET_OS}" == "win" ]
         then
           CROSS="--cross-prefix=${CROSS_COMPILE_PREFIX}-"
@@ -210,7 +211,8 @@ function do_qemu()
       "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse --version
     fi
 
-    touch "${qemu_stamp_file_path}"
+    # Actually never stamp qemu, always run make.
+    # touch "${qemu_stamp_file_path}"
   else
     echo "Component qemu already installed."
   fi
@@ -357,15 +359,23 @@ function copy_extra()
 {
   # ----- Copy the devices JSON files. -----
 
-  mkdir -p "${APP_PREFIX}/share/qemu/devices"
+  local dest
+  if [ "${TARGET_OS}" == "win" ]
+  then
+    dest="${APP_PREFIX}"
+  else
+    dest="${APP_PREFIX}/share/qemu"
+  fi
+
+  mkdir -p "${dest}/devices"
   cp "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}/gnu-mcu-eclipse/devices/"*.json \
-    "${APP_PREFIX}/share/qemu/devices"
+    "${dest}/devices"
   cp "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}/gnu-mcu-eclipse/devices/"README.md \
-    "${APP_PREFIX}/share/qemu/devices"
+    "${dest}/devices"
 
   # ----- Copy the board picture files. -----
 
-  mkdir -p "${APP_PREFIX}/share/qemu/graphics"
+  mkdir -p "${dest}/graphics"
   cp "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}/gnu-mcu-eclipse/graphics/"*.jpg \
-    "${APP_PREFIX}/share/qemu/graphics"
+    "${dest}/graphics"
 }

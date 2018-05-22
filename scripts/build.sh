@@ -172,6 +172,7 @@ echo "Container build script: \"${HOST_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIP
 # -----------------------------------------------------------------------------
 
 # The names of the two Docker images used for the build.
+# docker run --interactive --tty ilegeul/centos:6-xbb-v1
 docker_linux64_image="ilegeul/centos:6-xbb-v1"
 docker_linux32_image="ilegeul/centos32:6-xbb-v1"
 
