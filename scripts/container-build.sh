@@ -268,8 +268,8 @@ then
   # ---------------------------------------------------------------------------
 
   QEMU_VERSION="2.8"
-  QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse-dev"}
-  QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"HEAD"}
+  QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse"}
+  QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"b01e4c3bd5dc1715c684e600c1a3d634a0672b2c"}
   
   BUILD_GIT_PATH="${WORK_FOLDER_PATH}"/build.git
 
