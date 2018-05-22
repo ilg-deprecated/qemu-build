@@ -243,7 +243,12 @@ fi
 CFLAGS_OPTIMIZATIONS_FOR_TARGET="-ffunction-sections -fdata-sections -O2"
 
 APP_PREFIX="${INSTALL_FOLDER_PATH}/${APP_LC_NAME}"
-APP_PREFIX_DOC="${APP_PREFIX}"/share/doc
+if [ "${TARGET_OS}" == "win" ]
+then
+  APP_PREFIX_DOC="${APP_PREFIX}"/doc
+else
+  APP_PREFIX_DOC="${APP_PREFIX}"/share/doc
+fi
 
 # -----------------------------------------------------------------------------
 
