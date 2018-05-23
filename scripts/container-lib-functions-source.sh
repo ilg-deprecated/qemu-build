@@ -303,7 +303,7 @@ function do_sdl2()
     
       if [ "${TARGET_OS}" == "macos" ]
       then
-        # GNU GCC fails with '-fpascal-scrings'
+        # GNU GCC fails with '-fpascal-scrings'.
         export CC=gcc
         export CXX=g++
       fi
@@ -668,21 +668,18 @@ function do_gettext()
     download_and_extract "${gettext_url}" "${gettext_archive}" \
       "${GETTEXT_SRC_FOLDER_NAME}"
 
-    if [ "${TARGET_OS}" == "macos" ]
-    then
-      # Required, otherwise it fails while compiling 
-      # gettext-runtime/intl/langprefs.c.
-      export CC=gcc
-      export CXX=g++
-    fi
-
     (
       mkdir -p "${BUILD_FOLDER_PATH}/${GETTEXT_FOLDER_NAME}"
       cd "${BUILD_FOLDER_PATH}/${GETTEXT_FOLDER_NAME}"
 
       xbb_activate
 
-      export CFLAGS="${EXTRA_CFLAGS} -Wno-discarded-qualifiers -Wno-incompatible-pointer-types -Wno-attributes -Wno-unknown-warning-option"
+      export CFLAGS="${EXTRA_CFLAGS}"
+      if [ "${TARGET_OS}" != "macos" ]
+      then
+        export CFLAGS="${CFLAGS} -Wno-discarded-qualifiers -Wno-incompatible-pointer-types -Wno-attributes -Wno-unknown-warning-option"
+      fi
+      
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
       export LDFLAGS="${EXTRA_LDFLAGS}"
       
@@ -791,9 +788,10 @@ function do_glib()
 
       if [ "${TARGET_OS}" == "macos" ]
       then
+        # Otherwise it fails while trying to compile some Objective-C 
+        # constructs.
         export CC=gcc
         export CXX=g++
-        export CFLAGS="${CFLAGS} -Wno-tautological-constant-out-of-range-compare -Wno-deprecated-declarations -Wno-shift-negative-value -Wno-#warnings -Wno-self-assign"
       fi
       
       if [ ! -f "config.status" ]
