@@ -668,10 +668,12 @@ function do_gettext()
     download_and_extract "${gettext_url}" "${gettext_archive}" \
       "${GETTEXT_SRC_FOLDER_NAME}"
 
-    if [ "${TARGET_OS}" == "_win" ]
+    if [ "${TARGET_OS}" == "macos" ]
     then
-      export CC=${CROSS_COMPILE_PREFIX}-gcc
-      export CXX=${CROSS_COMPILE_PREFIX}-g++
+      # Required, otherwise it fails while compiling 
+      # gettext-runtime/intl/langprefs.c.
+      export CC=gcc
+      export CXX=g++
     fi
 
     (
