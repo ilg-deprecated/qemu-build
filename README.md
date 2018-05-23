@@ -143,7 +143,15 @@ and their SHA signatures, created in the `deploy` folder:
 
 ```console
 $ ls -l deploy
-...
+total 30536
+-rw-r--r-- 1 ilg ilg 7820067 May 23 10:45 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-centos32.tgz
+-rw-r--r-- 1 ilg ilg     122 May 23 10:45 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-centos32.tgz.sha
+-rw-r--r-- 1 ilg ilg 7505548 May 23 10:17 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-centos64.tgz
+-rw-r--r-- 1 ilg ilg     122 May 23 10:17 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-centos64.tgz.sha
+-rw-r--r-- 1 ilg ilg 7818371 May 23 11:00 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-win32.zip
+-rw-r--r-- 1 ilg ilg     119 May 23 11:00 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-win32.zip.sha
+-rw-r--r-- 1 ilg ilg 8026132 May 23 10:33 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-win64.zip
+-rw-r--r-- 1 ilg ilg     119 May 23 10:33 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-win64.zip.sha
 ```
 
 To copy the files from the build machine to the current development 
@@ -180,7 +188,9 @@ archive and its SHA signature, created in the `deploy` folder:
 
 ```console
 $ ls -l deploy
-...
+total 14152
+-rw-r--r--  1 ilg  staff  7240894 May 23 16:07 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-macos.tgz
+-rw-r--r--  1 ilg  staff      119 May 23 16:07 gnu-mcu-eclipse-qemu-2.8.0-3-20180523-0703-macos.tgz.sha
 ```
 
 To copy the files from the build machine to the current development 
