@@ -250,6 +250,8 @@ else
   APP_PREFIX_DOC="${APP_PREFIX}"/share/doc
 fi
 
+README_OUT_FILE_NAME="README-${RELEASE_VERSION}.md"
+
 # -----------------------------------------------------------------------------
 
 # The \x2C is a comma in hex; without this trick the regular expression
@@ -262,15 +264,22 @@ fi
 QEMU_PROJECT_NAME="qemu"
 
 # Keep them in sync with combo archive content.
-if [[ "${RELEASE_VERSION}" =~ 2\.8\.0-3 ]]
+if [[ "${RELEASE_VERSION}" =~ 2\.8\.0-* ]]
 then
 
   # ---------------------------------------------------------------------------
 
   QEMU_VERSION="2.8"
-  QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse"}
-  QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"b01e4c3bd5dc1715c684e600c1a3d634a0672b2c"}
-  
+  if [ "${RELEASE_VERSION}" == "2.8.0-3" ]
+  then
+    QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse"}
+    QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"b01e4c3bd5dc1715c684e600c1a3d634a0672b2c"}
+  elif [ "${RELEASE_VERSION}" == "2.8.0-4" ]
+  then
+    QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse-dev"}
+    QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"572a0c8d812051cd5c976070f8396cd9b12c6c9c"}
+  fi
+
   BUILD_GIT_PATH="${WORK_FOLDER_PATH}"/build.git
 
   # ---------------------------------------------------------------------------

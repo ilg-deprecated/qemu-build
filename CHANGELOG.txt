@@ -1,6 +1,11 @@
 
 The following changes (in reverse order) were applied to the QEMU master branch:
 
+[2019-02-10]
+
+- v2.8.0-4-20190210 released
+- [#62] fix the GPIO persistence issue
+
 [2018-05-23]
 
 - v2.8.0-3-20180523 released
