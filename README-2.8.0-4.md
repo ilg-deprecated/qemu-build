@@ -23,7 +23,7 @@ devices were removed and replaced by several Cortex-M devices.
 The supported boards are:
 
 ```console
-GNU MCU Eclipse 64-bits QEMU v2.8.0 (qemu-system-gnuarmeclipse).
+GNU MCU Eclipse 64-bit QEMU v2.8.0 (qemu-system-gnuarmeclipse).
 
 Supported boards:
   Maple                LeafLab Arduino-style STM32 microcontroller board (r5)

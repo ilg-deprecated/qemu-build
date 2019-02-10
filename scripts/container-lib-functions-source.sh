@@ -229,7 +229,7 @@ function do_jpeg()
         (
           bash "${WORK_FOLDER_PATH}/${JPEG_SRC_FOLDER_NAME}/configure" --help
 
-          # --enable-shared needed by SDL2_image on CentOS 64-bits.
+          # --enable-shared needed by SDL2_image on CentOS 64-bit.
           bash "${WORK_FOLDER_PATH}/${JPEG_SRC_FOLDER_NAME}/configure" \
             --prefix="${INSTALL_FOLDER_PATH}" \
             \

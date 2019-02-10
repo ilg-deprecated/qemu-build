@@ -257,7 +257,7 @@ README_OUT_FILE_NAME="README-${RELEASE_VERSION}.md"
 # The \x2C is a comma in hex; without this trick the regular expression
 # that processes this string in the Makefile, silently fails and the 
 # bfdver.h file remains empty.
-# BRANDING="${BRANDING}\x2C ${TARGET_BITS}-bits"
+# BRANDING="${BRANDING}\x2C ${TARGET_BITS}-bit"
 
 # -----------------------------------------------------------------------------
 
