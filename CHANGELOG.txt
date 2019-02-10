@@ -5,6 +5,7 @@ The following changes (in reverse order) were applied to the QEMU master branch:
 
 - v2.8.0-4-20190210 released
 - [#62] fix the GPIO persistence issue
+- the greeting shows 32-bit or 64-bit (singular).
 
 [2018-05-23]
 
