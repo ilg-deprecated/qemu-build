@@ -158,7 +158,7 @@ To copy the files from the build machine to the current development
 machine, open the `deploy` folder in a terminal and use `scp`:
 
 ```console
-$ scp * ilg@ilg-mbp.local:Downloads
+$ scp * ilg@ilg-mbp.local:Downloads/gme-binaries/qemu
 ```
 
 #### Build the macOS binary
@@ -197,7 +197,7 @@ To copy the files from the build machine to the current development
 machine, open the `deploy` folder in a terminal and use `scp`:
 
 ```console
-$ scp * ilg@ilg-mbp.local:Downloads
+$ scp * ilg@ilg-mbp.local:Downloads/gme-binaries/qemu
 ```
 
 ### Subsequent runs
