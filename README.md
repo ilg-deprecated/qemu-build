@@ -135,7 +135,7 @@ $ bash ~/Downloads/qemu-build.git/scripts/build.sh --all
 To build one of the previous versions:
 
 ```console
-$ RELEASE_VERSION=0.10.0-8 bash ~/Downloads/qemu-build.git/scripts/build.sh --all
+$ RELEASE_VERSION=2.8.0-3 bash ~/Downloads/qemu-build.git/scripts/build.sh --all
 ```
 
 Several hours later, the output of the build script is a set of 4 files 
@@ -177,7 +177,7 @@ $ caffeinate bash ~/Downloads/qemu-build.git/scripts/build.sh --osx --date YYYYM
 To build one of the previous macOS versions:
 
 ```console
-$ RELEASE_VERSION=0.10.0-8 caffeinate bash ~/Downloads/qemu-build.git/scripts/build.sh --osx --date YYYYMMDD-HHMM
+$ RELEASE_VERSION=2.8.0-3 caffeinate bash ~/Downloads/qemu-build.git/scripts/build.sh --osx --date YYYYMMDD-HHMM
 ```
 
 For consistency reasons, the date should be the same as the GNU/Linux 
@@ -267,7 +267,9 @@ A portable method is to use [`xpm`](https://www.npmjs.com/package/xpm):
 $ xpm install --global @gnu-mcu-eclipse/qemu
 ```
 
-More details are available on the [How to install the QEMU binaries?](https://gnu-mcu-eclipse.github.io/qemu/install/) page.
+More details are available on the 
+[How to install the QEMU binaries?](https://gnu-mcu-eclipse.github.io/qemu/install/)
+page.
 
 After install, the package should create a structure like this (only the 
 first two depth levels are shown):
