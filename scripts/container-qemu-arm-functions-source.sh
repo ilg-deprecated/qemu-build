@@ -6,32 +6,6 @@
 
 # -----------------------------------------------------------------------------
 
-function download_qemu() 
-{
-  if [ ! -d "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}" ]
-  then
-    (
-      xbb_activate
-
-      cd "${WORK_FOLDER_PATH}"
-      git_clone "${QEMU_GIT_URL}" "${QEMU_GIT_BRANCH}" \
-          "${QEMU_GIT_COMMIT}" "${QEMU_SRC_FOLDER_NAME}"
-      cd "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"
-
-      # git submodule update --init --recursive --remote
-      # Do not bring all submodules; for better control,
-      # prefer to build separate pixman. 
-      git submodule update --init dtc
-
-      rm -rf pixman roms
-
-      cp "${WORK_FOLDER_PATH}"/build.git/scripts/VERSION .
-    )
-  fi
-}
-
-# -----------------------------------------------------------------------------
-
 function do_qemu()
 {
 
