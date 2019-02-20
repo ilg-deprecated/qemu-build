@@ -72,6 +72,7 @@ function do_qemu()
       (
         make ${JOBS}
         make install  
+        make install-gme
 
         if [ "${WITH_PDF}" == "y" ]
         then
@@ -329,27 +330,3 @@ function check_binaries()
   fi
 }
 
-function copy_extra()
-{
-  # ----- Copy the devices JSON files. -----
-
-  local dest
-  if [ "${TARGET_OS}" == "win" ]
-  then
-    dest="${APP_PREFIX}"
-  else
-    dest="${APP_PREFIX}/share/qemu"
-  fi
-
-  mkdir -p "${dest}/devices"
-  cp "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}/gnu-mcu-eclipse/devices/"*.json \
-    "${dest}/devices"
-  cp "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}/gnu-mcu-eclipse/devices/"README.md \
-    "${dest}/devices"
-
-  # ----- Copy the board picture files. -----
-
-  mkdir -p "${dest}/graphics"
-  cp "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}/gnu-mcu-eclipse/graphics/"*.jpg \
-    "${dest}/graphics"
-}
