@@ -3,9 +3,17 @@
 These are the scripts and additional files required to build the
 [GNU MCU Eclipse QEMU](https://github.com/gnu-mcu-eclipse/qemu).
 
-This release follows the official [QEMU](https://www.qemu.org).
+This fork follows the official [QEMU](https://www.qemu.org).
 
-The build scripts use the 
+There are two types of builds:
+
+- local/native builds, which use the tools and libraries available on the 
+  host machine; generally do not run on a different system 
+  distribution/version; intended mostly for development purposes.
+- distribution builds, which create the archives distributed as 
+  binaries; expected to run on most modern systems.
+
+The distribution build scripts use the 
 [xPack Build Box (XBB)](https://github.com/xpack/xpack-build-box), 
 a set of elaborate build environments based on GCC 7.2 (Docker containers
 for GNU/Linux and Windows or a custom HomeBrew for MacOS).
@@ -26,7 +34,41 @@ Compared to the original QEMU distribution, there are many additions.
 For details, see 
 [The GNU MCU Eclipse QEMU](https://gnu-mcu-eclipse.github.io/qemu/) page.
 
-## How to build
+## How to run a local/native build
+
+### Prerequisites
+
+For the moment only Ubuntu 18LTS builds are supported. Details on how
+to install it are in the [Ubuntu](https://github.com/xpack/xpack-build-box/tree/master/ubuntu)
+page of the [XBB project](https://github.com/xpack/xpack-build-box).
+
+### Download the build scripts repo
+
+The build script is available from GitHub and can be 
+[viewed online](https://github.com/gnu-mcu-eclipse/qemu-build/blob/master/scripts/build-native.sh).
+
+To download it, clone the 
+[gnu-mcu-eclipse/qemu-build](https://github.com/gnu-mcu-eclipse/qemu-build) 
+Git repo, including submodules. 
+
+```console
+$ rm -rf ~/Downloads/qemu-build.git
+$ git clone --recurse-submodules https://github.com/gnu-mcu-eclipse/qemu-build.git \
+  ~/Downloads/qemu-build.git
+```
+
+### Build
+
+To build the native Ubuntu QEMU, use the `build-native.sh` script:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh
+```
+
+The result is in `Work/qemu-*-dev/install`, with the executable in the 
+`bin` folder.
+
+## How to build distributions
 
 ### Prerequisites
 
