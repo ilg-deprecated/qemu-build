@@ -52,6 +52,14 @@ host_defines_script_path="${script_folder_path}/host-defs-source.sh"
 echo "Host definitions source script: \"${host_defines_script_path}\"."
 source "${host_defines_script_path}"
 
+common_helper_functions_script_path="${script_folder_path}/helper/common-functions-source.sh"
+echo "Common helper functions source script: \"${common_helper_functions_script_path}\"."
+source "${common_helper_functions_script_path}"
+
+common_functions_script_path="${script_folder_path}/common-functions-source.sh"
+echo "Common functions source script: \"${common_functions_script_path}\"."
+source "${common_functions_script_path}"
+
 container_lib_functions_script_path="${script_folder_path}/${CONTAINER_LIB_FUNCTIONS_SCRIPT_NAME}"
 echo "Container lib functions source script: \"${container_lib_functions_script_path}\"."
 source "${container_lib_functions_script_path}"
