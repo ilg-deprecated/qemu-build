@@ -54,7 +54,7 @@ do
       ACTION="${arg}"
       ;;
 
-    --win32|--window32)
+    --win32|--windows32)
       DO_BUILD_WIN32="y"
       ;;
 
