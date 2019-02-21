@@ -45,6 +45,10 @@ while [ $# -gt 0 ]
 do
   case "$1" in
 
+    clean)
+      ACTION="$1"
+      ;;
+
     --win|--windows)
       DO_BUILD_WIN32="y"
       ;;
@@ -98,7 +102,7 @@ then
 fi
 
 echo
-echo "Preparing release ${RELEASE_VERSION}..."
+echo "Processing release ${RELEASE_VERSION}..."
 
 echo
 defines_script_path="${script_folder_path}/defs-source.sh"
@@ -110,6 +114,25 @@ HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-${RE
 mkdir -p "${HOST_WORK_FOLDER_PATH}"
 
 WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH}
+
+# -----------------------------------------------------------------------------
+
+if [ "${ACTION}" == "clean" ]
+then
+  # Remove most build and temporary folders.
+  echo
+  echo "Removing the build and include folders..."
+
+  rm -rf "${HOST_WORK_FOLDER_PATH}"/build
+  rm -rf "${HOST_WORK_FOLDER_PATH}"/install
+
+  echo
+  echo "Clean completed. Proceed with a regular build."
+
+  exit 0
+fi
+
+# -----------------------------------------------------------------------------
 
 host_functions_script_path="${script_folder_path}/helper/host-functions-source.sh"
 echo "Host helper functions source script: \"${host_functions_script_path}\"."
