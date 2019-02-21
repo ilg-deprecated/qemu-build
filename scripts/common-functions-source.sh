@@ -33,10 +33,13 @@ function native_prepare_prerequisites()
   EXTRA_CFLAGS="-ffunction-sections -fdata-sections -pipe"
   EXTRA_CXXFLAGS="-ffunction-sections -fdata-sections -pipe"
 
+  EXTRA_CFLAGS+=" -g -O0"
+  EXTRA_CXXFLAGS+=" -g -O0"
+
   EXTRA_LDFLAGS_LIB=""
   EXTRA_LDFLAGS="${EXTRA_LDFLAGS_LIB}"
 
-  EXTRA_LDFLAGS+=" -g"
+  EXTRA_LDFLAGS+=" -g -O0"
 
   if [ "${TARGET_OS}" == "macos" ]
   then
