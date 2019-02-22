@@ -200,7 +200,10 @@ download_qemu
     echo
     echo "Running qemu configure..."
 
-    bash "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"/configure --help
+    # Although it shouldn't, the script checks python before --help.
+    bash "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"/configure \
+      --python=python2 \
+      --help
 
     # --static fails due to sdl2.
     bash "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"/configure \
