@@ -224,6 +224,7 @@ download_qemu
       --disable-lzo \
       --disable-seccomp \
       --disable-bluez \
+      --disable-gcrypt \
       \
       --bindir="${APP_PREFIX}"/bin \
       --docdir="${APP_PREFIX_DOC}" \
