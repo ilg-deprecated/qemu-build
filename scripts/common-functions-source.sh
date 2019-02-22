@@ -73,6 +73,13 @@ function native_prepare_prerequisites()
     export PKG_CONFIG_LIBDIR=/usr/lib/x86_64-linux-gnu/pkgconfig:"${INSTALL_FOLDER_PATH}"/lib/pkgconfig
   fi
 
+  if [[ ! -v PKG_CONFIG_PATH ]]
+  then
+    if [ -d "/usr/lib/pkgconfig" ]
+    then
+      export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+    fi
+  fi
 }
 
 # -----------------------------------------------------------------------------
