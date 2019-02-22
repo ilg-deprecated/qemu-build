@@ -41,6 +41,9 @@ function native_prepare_prerequisites()
 
   EXTRA_LDFLAGS+=" -g -O0"
 
+  export CC="gcc"
+  export CXX="g++"
+
   if [ "${TARGET_OS}" == "macos" ]
   then
     # Note: macOS linker ignores -static-libstdc++, so 
@@ -48,8 +51,11 @@ function native_prepare_prerequisites()
     EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -Wl,-dead_strip"
   elif [ "${TARGET_OS}" == "linux" ]
   then
-    export CC="gcc-7"
-    export CXX="g++-7"
+    if [ ! -z "$(which "g++-7")" ]
+    then
+      export CC="gcc-7"
+      export CXX="g++-7"
+    fi
     # Do not add -static here, it fails.
     # Do not try to link pthread statically, it must match the system glibc.
     EXTRA_LDFLAGS_APP+="${EXTRA_LDFLAGS} -static-libstdc++ -Wl,--gc-sections"
