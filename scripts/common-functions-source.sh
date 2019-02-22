@@ -9,12 +9,19 @@
 
 function native_prepare_prerequisites()
 {
-  if [ -f "/opt/xbb/xbb-source.sh" ]
+  if [ -f "${HOME}"/opt/homebrew/xbb/bin/xbb-source.sh ]
+  then
+    source "${HOME}"/opt/homebrew/xbb/bin/xbb-source.sh
+  elif [ -f "/opt/xbb/xbb-source.sh" ]
   then
     source "/opt/xbb/xbb-source.sh"
   fi
 
   TARGET_OS="$(uname | tr '[:upper:]' '[:lower:]')"
+  if [ "${TARGET_OS}" == "darwin" ]
+  then
+    TARGET_OS="macos"
+  fi
   TARGET_BITS="${HOST_BITS}"
 
   # TARGET_FOLDER_NAME="${TARGET_OS}${TARGET_BITS}"
@@ -26,7 +33,6 @@ function native_prepare_prerequisites()
   APP_PREFIX_DOC="${APP_PREFIX}"/doc
 
   # ---------------------------------------------------------------------------
-
 
   EXTRA_CPPFLAGS=""
 
@@ -41,15 +47,12 @@ function native_prepare_prerequisites()
 
   EXTRA_LDFLAGS+=" -g -O0"
 
+  PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-""}
+
   export CC="gcc"
   export CXX="g++"
 
-  if [ "${TARGET_OS}" == "macos" ]
-  then
-    # Note: macOS linker ignores -static-libstdc++, so 
-    # libstdc++.6.dylib should be handled.
-    EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -Wl,-dead_strip"
-  elif [ "${TARGET_OS}" == "linux" ]
+  if [ "${TARGET_OS}" == "linux" ]
   then
     if [ ! -z "$(which "g++-7")" ]
     then
@@ -59,6 +62,13 @@ function native_prepare_prerequisites()
     # Do not add -static here, it fails.
     # Do not try to link pthread statically, it must match the system glibc.
     EXTRA_LDFLAGS_APP+="${EXTRA_LDFLAGS} -static-libstdc++ -Wl,--gc-sections"
+  elif [ "${TARGET_OS}" == "macos" ]
+  then
+    export CC="gcc-7"
+    export CXX="g++-7"
+    # Note: macOS linker ignores -static-libstdc++, so 
+    # libstdc++.6.dylib should be handled.
+    EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -Wl,-dead_strip"
   elif [ "${TARGET_OS}" == "win" ]
   then
     # CRT_glob is from ARM script
@@ -68,18 +78,6 @@ function native_prepare_prerequisites()
   fi
 
   export PKG_CONFIG=pkg-config-verbose
-  if [ "${TARGET_OS}" == "linux" -a "${TARGET_BITS}" == "64" ]
-  then
-    export PKG_CONFIG_LIBDIR=/usr/lib/x86_64-linux-gnu/pkgconfig:"${INSTALL_FOLDER_PATH}"/lib/pkgconfig
-  fi
-
-  if [[ ! -v PKG_CONFIG_PATH ]]
-  then
-    if [ -d "/usr/lib/pkgconfig" ]
-    then
-      export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
-    fi
-  fi
 }
 
 # -----------------------------------------------------------------------------
