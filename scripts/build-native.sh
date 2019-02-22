@@ -190,7 +190,7 @@ download_qemu
 
   export CFLAGS="${EXTRA_CFLAGS} -Wno-format-truncation -Wno-incompatible-pointer-types -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
   export CPPFLAGS="${EXTRA_CPPFLAGS}"
-  export LDFLAGS="${EXTRA_LDFLAGS}"
+  export LDFLAGS="${EXTRA_LDFLAGS_APP}"
 
   CROSS=""
 
@@ -211,11 +211,23 @@ download_qemu
       --disable-werror \
       --target-list="gnuarmeclipse-softmmu" \
       \
+      --enable-debug \
+      --disable-linux-aio \
+      --disable-libnfs \
+      --disable-snappy \
+      --disable-libssh2 \
+      --disable-gnutls \
+      --disable-nettle \
+      --disable-lzo \
+      --disable-seccomp \
+      --disable-bluez \
+      \
       --bindir="${APP_PREFIX}"/bin \
       --docdir="${APP_PREFIX_DOC}" \
       --mandir="${APP_PREFIX_DOC}"/man \
       \
-      --with-sdlabi="2.0"
+      --with-sdlabi="2.0" \
+      --python=python2 \
 
   fi
 
