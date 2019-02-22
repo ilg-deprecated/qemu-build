@@ -206,7 +206,7 @@ download_qemu
       --help
 
     # --static fails due to sdl2.
-    bash "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"/configure \
+    bash ${DEBUG} "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"/configure \
       --prefix="${APP_PREFIX}" \
       ${CROSS} \
       --extra-cflags="${CFLAGS} ${CPPFLAGS}" \
