@@ -52,6 +52,12 @@ To download it, clone the
 Git repo, including submodules. 
 
 ```console
+$ curl -L https://github.com/gnu-mcu-eclipse/qemu-build/raw/master/scripts/git-clone.sh | bash
+```
+
+or the equivalent:
+
+```console
 $ rm -rf ~/Downloads/qemu-build.git
 $ git clone --recurse-submodules https://github.com/gnu-mcu-eclipse/qemu-build.git \
   ~/Downloads/qemu-build.git
@@ -85,6 +91,12 @@ The build script is available from GitHub and can be
 To download it, clone the 
 [gnu-mcu-eclipse/qemu-build](https://github.com/gnu-mcu-eclipse/qemu-build) 
 Git repo, including submodules. 
+
+```console
+$ curl -L https://github.com/gnu-mcu-eclipse/qemu-build/raw/master/scripts/git-clone.sh | bash
+```
+
+or the equivalent:
 
 ```console
 $ rm -rf ~/Downloads/qemu-build.git
