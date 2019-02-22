@@ -187,6 +187,7 @@ download_qemu
   cd "${BUILD_FOLDER_PATH}"
 
   xbb_activate
+  xbb_activate_dev
 
   export CFLAGS="${EXTRA_CFLAGS} -Wno-format-truncation -Wno-incompatible-pointer-types -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
   export CPPFLAGS="${EXTRA_CPPFLAGS}"

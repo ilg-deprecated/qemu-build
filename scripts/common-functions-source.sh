@@ -121,4 +121,20 @@ function xbb_activate()
   :
 }
 
+# Default, to fix the missing definition on ARCH.
+function xbb_activate_dev()
+{
+  if [ "${TARGET_OS}" == "linux" ]
+  then
+    if [ ! -z "${PKG_CONFIG_PATH}" ]
+    then
+      if [ -d "/usr/lib/pkgconfig" ]
+      then
+        PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+      fi
+    fi
+    export PKG_CONFIG_PATH
+  fi
+}
+
 # -----------------------------------------------------------------------------
