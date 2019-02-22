@@ -253,6 +253,11 @@ download_qemu
     echo
     echo "Shared libraries:"
     readelf -d "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse | grep 'Shared library:'
+  elif [ "${TARGET_OS}" == "macos" ]
+  then
+    echo
+    echo "Dynamic libraries:"
+    otool -L "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
   fi
 )
 
