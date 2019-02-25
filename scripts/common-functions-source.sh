@@ -83,8 +83,6 @@ function native_prepare_prerequisites()
     # -static-libgcc avoids libgcc_s_sjlj-1.dll 
     EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static -static-libgcc -static-libstdc++ -Wl,--gc-sections"
   fi
-
-  export PKG_CONFIG=pkg-config-verbose
 }
 
 # -----------------------------------------------------------------------------
