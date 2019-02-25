@@ -231,13 +231,13 @@ elif [ "${TARGET_OS}" == "linux" ]
 then
   # Do not add -static here, it fails.
   # Do not try to link pthread statically, it must match the system glibc.
-  EXTRA_LDFLAGS_APP+="${EXTRA_LDFLAGS} -static-libstdc++ -Wl,--gc-sections"
+  EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static-libstdc++ -Wl,--gc-sections"
 elif [ "${TARGET_OS}" == "win" ]
 then
   # CRT_glob is from ARM script
   # -static avoids libwinpthread-1.dll 
   # -static-libgcc avoids libgcc_s_sjlj-1.dll 
-  EXTRA_LDFLAGS_APP+="${EXTRA_LDFLAGS} -static -static-libgcc -static-libstdc++ -Wl,--gc-sections"
+  EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static -static-libgcc -static-libstdc++ -Wl,--gc-sections"
 fi
 
 export PKG_CONFIG=pkg-config-verbose
