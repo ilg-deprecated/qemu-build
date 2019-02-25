@@ -38,9 +38,12 @@ For details, see
 
 ### Prerequisites
 
-For the moment only Ubuntu 18LTS builds are supported. Details on how
-to install it are in the [Ubuntu](https://github.com/xpack/xpack-build-box/tree/master/ubuntu)
+For the moment only Ubuntu 18LTS and macOS builds are supported. Details on how
+to install it are in the 
+[macOS](https://github.com/xpack/xpack-build-box/blob/master/macos/install-homebrew-xbb.sh)
+and [Ubuntu](https://github.com/xpack/xpack-build-box/tree/master/ubuntu)
 page of the [XBB project](https://github.com/xpack/xpack-build-box).
+
 
 ### Download the build scripts repo
 
@@ -65,19 +68,19 @@ $ git clone --recurse-submodules https://github.com/gnu-mcu-eclipse/qemu-build.g
 
 ### Build
 
-To build the native Ubuntu QEMU, use the `build-native.sh` script:
-
-```console
-$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh
-```
-
-To build a binary which is suitable for debug sessions:
+To build a binary which is suitable for debug sessions, use the 
+`build-native.sh` script with the shown options:
 
 ```console
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --debug --develop
 ```
 
-`--develop` is used to clone the development branch from the repository.
+The script can be also used to build a release binary, by calling it without
+other options:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh
+```
 
 The result is in `Work/qemu-dev/install`, with the executable in the 
 `bin` folder.
@@ -89,6 +92,12 @@ To clean the folders in preparation for a new build:
 ```console
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh clean
 ```
+
+### DEVELOP.md
+
+More details on the development environment for QEMU are in the separate
+[DEVELOP](https://github.com/gnu-mcu-eclipse/qemu/blob/gnuarmeclipse-dev/DEVELOP.md)
+page.
 
 ## How to build distributions
 
