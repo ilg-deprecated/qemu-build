@@ -71,8 +71,24 @@ To build the native Ubuntu QEMU, use the `build-native.sh` script:
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh
 ```
 
-The result is in `Work/qemu-*-dev/install`, with the executable in the 
+To build a binary which is suitable for debug sessions:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --debug --develop
+```
+
+`--develop` is used to clone the development branch from the repository.
+
+The result is in `Work/qemu-dev/install`, with the executable in the 
 `bin` folder.
+
+### Clean
+
+To clean the folders in preparation for a new build:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh clean
+```
 
 ## How to build distributions
 

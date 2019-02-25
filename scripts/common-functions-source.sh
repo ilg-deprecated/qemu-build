@@ -39,13 +39,20 @@ function native_prepare_prerequisites()
   EXTRA_CFLAGS="-ffunction-sections -fdata-sections -pipe"
   EXTRA_CXXFLAGS="-ffunction-sections -fdata-sections -pipe"
 
-  EXTRA_CFLAGS+=" -g -O0"
-  EXTRA_CXXFLAGS+=" -g -O0"
-
   EXTRA_LDFLAGS_LIB=""
   EXTRA_LDFLAGS="${EXTRA_LDFLAGS_LIB}"
+  EXTRA_LDFLAGS_APP=""
 
-  EXTRA_LDFLAGS+=" -g -O0"
+  if [ "${IS_DEBUG}" == "y" ]
+  then
+    EXTRA_CFLAGS+=" -g -O0"
+    EXTRA_CXXFLAGS+=" -g -O0"
+    EXTRA_LDFLAGS+=" -g -O0"
+  else
+    EXTRA_CFLAGS+=" -O2"
+    EXTRA_CXXFLAGS+=" -O2"
+    EXTRA_LDFLAGS+=" -O2"
+  fi
 
   PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-""}
 
@@ -61,7 +68,7 @@ function native_prepare_prerequisites()
     fi
     # Do not add -static here, it fails.
     # Do not try to link pthread statically, it must match the system glibc.
-    EXTRA_LDFLAGS_APP+="${EXTRA_LDFLAGS} -static-libstdc++ -Wl,--gc-sections"
+    EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static-libstdc++ -Wl,--gc-sections"
   elif [ "${TARGET_OS}" == "macos" ]
   then
     export CC="gcc-7"
@@ -74,7 +81,7 @@ function native_prepare_prerequisites()
     # CRT_glob is from ARM script
     # -static avoids libwinpthread-1.dll 
     # -static-libgcc avoids libgcc_s_sjlj-1.dll 
-    EXTRA_LDFLAGS_APP+="${EXTRA_LDFLAGS} -static -static-libgcc -static-libstdc++ -Wl,--gc-sections"
+    EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static -static-libgcc -static-libstdc++ -Wl,--gc-sections"
   fi
 
   export PKG_CONFIG=pkg-config-verbose

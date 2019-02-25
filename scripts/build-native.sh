@@ -31,7 +31,8 @@ IFS=$'\n\t'
 ACTION=""
 
 DO_BUILD_WIN=""
-ENV_FILE=""
+IS_DEBUG=""
+IS_DEVELOP=""
 
 # Attempts to use 8 occasionally failed, reduce if necessary.
 if [ "$(uname)" == "Darwin" ]
@@ -53,9 +54,12 @@ do
       DO_BUILD_WIN32="y"
       ;;
 
-    --env-file)
-      shift
-      ENV_FILE="$1"
+    --debug)
+      IS_DEBUG="y"
+      ;;
+
+    --develop)
+      IS_DEVELOP="y"
       ;;
 
     --jobs)
@@ -67,7 +71,7 @@ do
       echo "Build a local/native GNU MCU Eclipse ARM QEMU."
       echo "Usage:"
       # Some of the options are processed by the container script.
-      echo "    bash $0 [--win] [--env-file file] [--jobs N] [--help]"
+      echo "    bash $0 [--win] [--jobs N] [--help]"
       echo
       exit 1
       ;;
@@ -81,6 +85,12 @@ do
   shift
 
 done
+
+if [ "${DO_BUILD_WIN}" == "y" ]
+then
+  echo "Windows builds not yet supported."
+  exit 1
+fi
 
 # -----------------------------------------------------------------------------
 # Identify helper scripts.
@@ -110,7 +120,7 @@ echo "Definitions source script: \"${defines_script_path}\"."
 source "${defines_script_path}"
 
 # The Work folder is in HOME.
-HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-${RELEASE_VERSION}-dev"}
+HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-dev"}
 mkdir -p "${HOST_WORK_FOLDER_PATH}"
 
 WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH}
@@ -152,7 +162,13 @@ QEMU_VERSION="2.8"
 
 QEMU_SRC_FOLDER_NAME=${QEMU_SRC_FOLDER_NAME:-"${QEMU_PROJECT_NAME}.git"}
 QEMU_GIT_URL="https://github.com/gnu-mcu-eclipse/qemu.git"
-QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse"}
+if [ "${IS_DEVELOP}" == "y" ]
+then
+  QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse-dev"}
+else
+  QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse"}
+fi
+
 QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-""}
 
 # -----------------------------------------------------------------------------
@@ -190,7 +206,13 @@ download_qemu
   xbb_activate_dev
 
   export CFLAGS="${EXTRA_CFLAGS} -Wno-format-truncation -Wno-incompatible-pointer-types -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
+
   export CPPFLAGS="${EXTRA_CPPFLAGS}"
+  if [ "${IS_DEBUG}" == "y" ]
+  then 
+    export CPPFLAGS+=" -DDEBUG"
+  fi
+
   export LDFLAGS="${EXTRA_LDFLAGS_APP}"
 
   CROSS=""
@@ -206,6 +228,13 @@ download_qemu
       --python=python2 \
       --help
 
+    if [ "${IS_DEBUG}" == "y" ]
+    then 
+      ENABLE_DEBUG="--enable-debug"
+    else
+      ENABLE_DEBUG=""
+    fi
+
     # --static fails due to sdl2.
     bash ${DEBUG} "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"/configure \
       --prefix="${APP_PREFIX}" \
@@ -215,7 +244,7 @@ download_qemu
       --disable-werror \
       --target-list="gnuarmeclipse-softmmu" \
       \
-      --enable-debug \
+      ${ENABLE_DEBUG} \
       --disable-linux-aio \
       --disable-libnfs \
       --disable-snappy \
@@ -242,6 +271,12 @@ download_qemu
   make ${JOBS}
   make install
   make install-gme
+
+  if [ "${IS_DEBUG}" != "y" ]
+  then
+    # For just in case, normally must be done by the make file.
+    strip "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
+  fi
 
   if [ "${TARGET_OS}" != "win" ]
   then
