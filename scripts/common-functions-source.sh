@@ -11,9 +11,13 @@ function native_prepare_prerequisites()
 {
   if [ -f "${HOME}"/opt/homebrew/xbb/xbb-source.sh ]
   then
+    echo
+    echo "Sourcing ${HOME}/opt/homebrew/xbb/xbb-source.sh..."
     source "${HOME}"/opt/homebrew/xbb/xbb-source.sh
   elif [ -f "/opt/xbb/xbb-source.sh" ]
   then
+    echo
+    echo "Sourcing /opt/xbb/xbb-source.sh..."
     source "/opt/xbb/xbb-source.sh"
   fi
 
@@ -83,6 +87,16 @@ function native_prepare_prerequisites()
     # -static-libgcc avoids libgcc_s_sjlj-1.dll 
     EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static -static-libgcc -static-libstdc++ -Wl,--gc-sections"
   fi
+
+  echo
+  echo "CC=${CC}"
+  echo "CXX=${CXX}"
+  echo "EXTRA_CPPFLAGS=${EXTRA_CPPFLAGS}"
+  echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}"
+  echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}"
+  echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}"
+
+  echo "EXTRA_LDFLAGS_APP=${EXTRA_LDFLAGS_APP}"
 }
 
 # -----------------------------------------------------------------------------
