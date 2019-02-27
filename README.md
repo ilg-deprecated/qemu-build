@@ -3,20 +3,18 @@
 These are the scripts and additional files required to build the
 [GNU MCU Eclipse QEMU](https://github.com/gnu-mcu-eclipse/qemu).
 
-This fork follows the official [QEMU](https://www.qemu.org).
-
 There are two types of builds:
 
 - local/native builds, which use the tools and libraries available on the 
-  host machine; generally do not run on a different system 
+  host machine; generally the binaries do not run on a different system 
   distribution/version; intended mostly for development purposes.
 - distribution builds, which create the archives distributed as 
   binaries; expected to run on most modern systems.
 
-The distribution build scripts use the 
+The build scripts use the 
 [xPack Build Box (XBB)](https://github.com/xpack/xpack-build-box), 
 a set of elaborate build environments based on GCC 7.2 (Docker containers
-for GNU/Linux and Windows or a custom HomeBrew for MacOS).
+for GNU/Linux and Windows or a custom Homebrew for MacOS).
 
 ## Repository URLs
 
@@ -27,23 +25,15 @@ git://git.qemu.org/qemu.git
 
 Add a remote named `qemu`, and pull the QEMU master → master.
 
-## Changes
-
-Compared to the original QEMU distribution, there are many additions. 
-
-For details, see 
-[The GNU MCU Eclipse QEMU](https://gnu-mcu-eclipse.github.io/qemu/) page.
-
 ## How to run a local/native build
 
 ### Prerequisites
 
-For the moment only Ubuntu 18LTS and macOS builds are supported. Details on how
-to install it are in the 
-[macOS](https://github.com/xpack/xpack-build-box/blob/master/macos/install-homebrew-xbb.sh)
+For the moment only Ubuntu 18LTS and macOS builds are supported. Details on 
+how to prepare the development environment are in the 
+[macOS](https://github.com/xpack/xpack-build-box/tree/master/macos)
 and [Ubuntu](https://github.com/xpack/xpack-build-box/tree/master/ubuntu)
 page of the [XBB project](https://github.com/xpack/xpack-build-box).
-
 
 ### Download the build scripts repo
 
@@ -68,15 +58,8 @@ $ git clone --recurse-submodules https://github.com/gnu-mcu-eclipse/qemu-build.g
 
 ### Build
 
-To build a binary which is suitable for debug sessions, use the 
-`build-native.sh` script with the shown options:
-
-```console
-$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --debug --develop
-```
-
-The script can be also used to build a release binary, by calling it without
-other options:
+To build a binary which is suitable for running on the host, run the
+script without other options:
 
 ```console
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh
