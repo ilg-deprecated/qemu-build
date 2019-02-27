@@ -9,9 +9,9 @@
 
 function native_prepare_prerequisites()
 {
-  if [ -f "${HOME}"/opt/homebrew/xbb/bin/xbb-source.sh ]
+  if [ -f "${HOME}"/opt/homebrew/xbb/xbb-source.sh ]
   then
-    source "${HOME}"/opt/homebrew/xbb/bin/xbb-source.sh
+    source "${HOME}"/opt/homebrew/xbb/xbb-source.sh
   elif [ -f "/opt/xbb/xbb-source.sh" ]
   then
     source "/opt/xbb/xbb-source.sh"
