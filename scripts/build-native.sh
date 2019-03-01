@@ -256,25 +256,30 @@ function xbb_activate_this()
 # -----------------------------------------------------------------------------
 # Build dependent libraries.
 
-do_zlib
+if true
+then
 
-do_libpng
-do_jpeg
-do_libiconv
+  do_zlib
 
-do_sdl2
-do_sdl2_image
+  do_libpng
+  do_jpeg
+  do_libiconv
 
-do_libffi
+  do_sdl2
+  do_sdl2_image
 
-# if [ "${TARGET_OS}" == "_win" ]
-# then
-#   do_libxml2
-# fi
+  do_libffi
 
-do_gettext # requires libxml2 on windows
-do_glib
-do_pixman
+  # if [ "${TARGET_OS}" == "_win" ]
+  # then
+  #   do_libxml2
+  # fi
+
+  do_gettext # requires libxml2 on windows
+  do_glib
+  do_pixman
+
+fi
 
 # -----------------------------------------------------------------------------
 
