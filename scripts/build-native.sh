@@ -245,14 +245,6 @@ copy_build_git
 
 download_qemu
 
-function xbb_activate_this()
-{
-  export EXTRA_CPPFLAGS+=" -I${LIBS_INSTALL_FOLDER_PATH}/include"
-  export EXTRA_LDFLAGS+=" -L${LIBS_INSTALL_FOLDER_PATH}/lib"
-
-  export PKG_CONFIG_PATH="${LIBS_INSTALL_FOLDER_PATH}/lib/pkgconfig:${PKG_CONFIG_PATH}"
-}
-
 # -----------------------------------------------------------------------------
 # Build dependent libraries.
 
