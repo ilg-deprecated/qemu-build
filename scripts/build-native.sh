@@ -18,13 +18,41 @@ set -o nounset # Exit if variable not set.
 IFS=$'\n\t'
 
 # -----------------------------------------------------------------------------
+# Identify the script location, to reach, for example, the helper scripts.
+
+build_script_path="$0"
+if [[ "${build_script_path}" != /* ]]
+then
+  # Make relative path absolute.
+  build_script_path="$(pwd)/$0"
+fi
+
+script_folder_path="$(dirname "${build_script_path}")"
+script_folder_name="$(basename "${script_folder_path}")"
+
+# =============================================================================
 
 # Script to build a native GNU MCU Eclipse ARM QEMU, which uses the
 # tools and libraries available on the host machine. It is generally
 # intended for development and creating customised versions (as opposed
 # to the build intended for creating distribution packages).
 #
-# Developed on Ubuntu 18 LTS x64. 
+# Developed on Ubuntu 18 LTS x64 and macOS 10.13. 
+
+# -----------------------------------------------------------------------------
+
+echo
+echo "GNU MCU Eclipse QEMU native build script."
+
+echo
+host_functions_script_path="${script_folder_path}/helper/host-functions-source.sh"
+echo "Host helper functions source script: \"${host_functions_script_path}\"."
+source "${host_functions_script_path}"
+
+host_detect
+
+TARGET_ARCH="${HOST_NODE_ARCH}"
+TARGET_PLATFORM="${HOST_NODE_PLATFORM}"
 
 # -----------------------------------------------------------------------------
 
@@ -33,9 +61,10 @@ ACTION=""
 DO_BUILD_WIN=""
 IS_DEBUG=""
 IS_DEVELOP=""
+WITH_STRIP=""
 
 # Attempts to use 8 occasionally failed, reduce if necessary.
-if [ "$(uname)" == "Darwin" ]
+if [ "${HOST_UNAME}" == "Darwin" ]
 then
   JOBS="--jobs=$(sysctl -n hw.ncpu)"
 else
@@ -46,7 +75,7 @@ while [ $# -gt 0 ]
 do
   case "$1" in
 
-    clean)
+    clean|cleanlibs|cleanall)
       ACTION="$1"
       ;;
 
@@ -71,9 +100,9 @@ do
       echo "Build a local/native GNU MCU Eclipse ARM QEMU."
       echo "Usage:"
       # Some of the options are processed by the container script.
-      echo "    bash $0 [--win] [--jobs N] [--help]"
+      echo "    bash $0 [--win] [--debug] [--develop] [--jobs N] [--help] [clean|cleanlibs|cleanall]"
       echo
-      exit 1
+      exit 0
       ;;
 
     *)
@@ -92,18 +121,8 @@ then
   exit 1
 fi
 
+
 # -----------------------------------------------------------------------------
-# Identify helper scripts.
-
-build_script_path=$0
-if [[ "${build_script_path}" != /* ]]
-then
-  # Make relative path absolute.
-  build_script_path=$(pwd)/$0
-fi
-
-script_folder_path="$(dirname ${build_script_path})"
-script_folder_name="$(basename ${script_folder_path})"
 
 if [ -f "${script_folder_path}"/VERSION ]
 then
@@ -119,49 +138,47 @@ defines_script_path="${script_folder_path}/defs-source.sh"
 echo "Definitions source script: \"${defines_script_path}\"."
 source "${defines_script_path}"
 
-# The Work folder is in HOME.
-HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-dev"}
-mkdir -p "${HOST_WORK_FOLDER_PATH}"
-
-WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH}
-
 # -----------------------------------------------------------------------------
 
-if [ "${ACTION}" == "clean" ]
-then
-  # Remove most build and temporary folders.
-  echo
-  echo "Removing the build and include folders..."
-
-  rm -rf "${HOST_WORK_FOLDER_PATH}"/build
-  rm -rf "${HOST_WORK_FOLDER_PATH}"/install
-
-  echo
-  echo "Clean completed. Proceed with a regular build."
-
-  exit 0
-fi
-
-# -----------------------------------------------------------------------------
-
-host_functions_script_path="${script_folder_path}/helper/host-functions-source.sh"
-echo "Host helper functions source script: \"${host_functions_script_path}\"."
-source "${host_functions_script_path}"
-
-common_helper_functions_script_path="${script_folder_path}/helper/common-functions-source.sh"
+common_helper_functions_script_path="${script_folder_path}"/helper/common-functions-source.sh
 echo "Common helper functions source script: \"${common_helper_functions_script_path}\"."
 source "${common_helper_functions_script_path}"
 
 # May override some of the helper/common definitions.
-common_functions_script_path="${script_folder_path}/common-functions-source.sh"
+common_functions_script_path="${script_folder_path}"/common-functions-source.sh
 echo "Common functions source script: \"${common_functions_script_path}\"."
 source "${common_functions_script_path}"
+
+# -----------------------------------------------------------------------------
+
+# The Work folder is in HOME.
+HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-dev"}
+mkdir -p "${HOST_WORK_FOLDER_PATH}"
+
+host_prepare_cache
+
+prepare_prerequisites
+
+do_actions
+
+# -----------------------------------------------------------------------------
+
+common_libs_functions_script_path="${script_folder_path}/${COMMON_LIBS_FUNCTIONS_SCRIPT_NAME}"
+echo "Common libs functions source script: \"${common_libs_functions_script_path}\"."
+source "${common_libs_functions_script_path}"
+
+common_app_functions_script_path="${script_folder_path}/${COMMON_APP_FUNCTIONS_SCRIPT_NAME}"
+echo "Common app functions source script: \"${common_app_functions_script_path}\"."
+source "${common_app_functions_script_path}"
+
+# -----------------------------------------------------------------------------
 
 QEMU_PROJECT_NAME="qemu"
 QEMU_VERSION="2.8"
 
 QEMU_SRC_FOLDER_NAME=${QEMU_SRC_FOLDER_NAME:-"${QEMU_PROJECT_NAME}.git"}
 QEMU_GIT_URL="https://github.com/gnu-mcu-eclipse/qemu.git"
+
 if [ "${IS_DEVELOP}" == "y" ]
 then
   QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse-dev"}
@@ -173,13 +190,29 @@ QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-""}
 
 # -----------------------------------------------------------------------------
 
-# Copy the build files to the Work area, to make them available for the 
-# container script.
-rm -rf "${HOST_WORK_FOLDER_PATH}"/build.git
-mkdir -p "${HOST_WORK_FOLDER_PATH}"/build.git
-cp -r "$(dirname ${script_folder_path})"/* "${HOST_WORK_FOLDER_PATH}"/build.git
-rm -rf "${HOST_WORK_FOLDER_PATH}"/build.git/scripts/helper/.git
-rm -rf "${HOST_WORK_FOLDER_PATH}"/build.git/scripts/helper/build-helper.sh
+ZLIB_VERSION="1.2.8"
+
+LIBPNG_VERSION="1.6.23"
+LIBPNG_SFOLDER="libpng16"
+
+JPEG_VERSION="9b"
+
+SDL2_VERSION="2.0.5"
+
+SDL2_IMAGE_VERSION="2.0.1"
+
+LIBFFI_VERSION="3.2.1"
+
+LIBICONV_VERSION="1.14"
+
+LIBXML2_VERSION="2.9.8"
+
+GETTEXT_VERSION="0.19.8.1"
+
+GLIB_MVERSION="2.51"
+GLIB_VERSION="${GLIB_MVERSION}.0"
+
+PIXMAN_VERSION="0.34.0"
 
 # -----------------------------------------------------------------------------
 
@@ -190,112 +223,50 @@ host_get_current_date
 
 host_start_timer
 
-host_detect
-
 native_prepare_prerequisites
+
+# -----------------------------------------------------------------------------
+
+copy_build_git
 
 # -----------------------------------------------------------------------------
 
 download_qemu
 
-(
-  mkdir -p "${BUILD_FOLDER_PATH}"
-  cd "${BUILD_FOLDER_PATH}"
+function xbb_activate_this()
+{
+  export EXTRA_CPPFLAGS+=" -I${LIBS_INSTALL_FOLDER_PATH}/include"
+  export EXTRA_LDFLAGS+=" -L${LIBS_INSTALL_FOLDER_PATH}/lib"
 
-  xbb_activate
-  xbb_activate_dev
+  export PKG_CONFIG_PATH="${LIBS_INSTALL_FOLDER_PATH}/lib/pkgconfig:${PKG_CONFIG_PATH}"
+}
 
-  export CFLAGS="${EXTRA_CFLAGS} -Wno-format-truncation -Wno-incompatible-pointer-types -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
+# -----------------------------------------------------------------------------
+# Build dependent libraries.
 
-  export CPPFLAGS="${EXTRA_CPPFLAGS}"
-  if [ "${IS_DEBUG}" == "y" ]
-  then 
-    export CPPFLAGS+=" -DDEBUG"
-  fi
+do_zlib
 
-  export LDFLAGS="${EXTRA_LDFLAGS_APP}"
+do_libpng
+do_jpeg
+do_libiconv
 
-  CROSS=""
+do_sdl2
+do_sdl2_image
 
-  if [ ! -f "config.status" ]
-  then
+do_libffi
 
-    echo
-    echo "Running qemu configure..."
+# if [ "${TARGET_OS}" == "_win" ]
+# then
+#   do_libxml2
+# fi
 
-    # Although it shouldn't, the script checks python before --help.
-    bash "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"/configure \
-      --python=python2 \
-      --help
+do_gettext # requires libxml2 on windows
+do_glib
+do_pixman
 
-    if [ "${IS_DEBUG}" == "y" ]
-    then 
-      ENABLE_DEBUG="--enable-debug"
-    else
-      ENABLE_DEBUG=""
-    fi
+# -----------------------------------------------------------------------------
 
-    # --static fails due to sdl2.
-    bash ${DEBUG} "${WORK_FOLDER_PATH}/${QEMU_SRC_FOLDER_NAME}"/configure \
-      --prefix="${APP_PREFIX}" \
-      ${CROSS} \
-      --extra-cflags="${CFLAGS} ${CPPFLAGS}" \
-      --extra-ldflags="${LDFLAGS}" \
-      --disable-werror \
-      --target-list="gnuarmeclipse-softmmu" \
-      \
-      ${ENABLE_DEBUG} \
-      --disable-linux-aio \
-      --disable-libnfs \
-      --disable-snappy \
-      --disable-libssh2 \
-      --disable-gnutls \
-      --disable-nettle \
-      --disable-lzo \
-      --disable-seccomp \
-      --disable-bluez \
-      --disable-gcrypt \
-      \
-      --bindir="${APP_PREFIX}"/bin \
-      --docdir="${APP_PREFIX_DOC}" \
-      --mandir="${APP_PREFIX_DOC}"/man \
-      \
-      --with-sdlabi="2.0" \
-      --python=python2 \
-
-  fi
-
-  echo
-  echo "Running qemu make..."
-
-  make ${JOBS}
-  make install
-  make install-gme
-
-  if [ "${IS_DEBUG}" != "y" ]
-  then
-    # For just in case, normally must be done by the make file.
-    strip "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-  fi
-
-  if [ "${TARGET_OS}" != "win" ]
-  then
-    echo
-    "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse --version
-  fi
-
-  if [ "${TARGET_OS}" == "linux" ]
-  then
-    echo
-    echo "Shared libraries:"
-    readelf -d "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse | grep 'Shared library:'
-  elif [ "${TARGET_OS}" == "macos" ]
-  then
-    echo
-    echo "Dynamic libraries:"
-    otool -L "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-  fi
-)
+do_native_qemu
 
 # -----------------------------------------------------------------------------
 

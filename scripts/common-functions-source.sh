@@ -9,33 +9,6 @@
 
 function native_prepare_prerequisites()
 {
-  if [ -f "${HOME}"/opt/homebrew/xbb/xbb-source.sh ]
-  then
-    echo
-    echo "Sourcing ${HOME}/opt/homebrew/xbb/xbb-source.sh..."
-    source "${HOME}"/opt/homebrew/xbb/xbb-source.sh
-  elif [ -f "/opt/xbb/xbb-source.sh" ]
-  then
-    echo
-    echo "Sourcing /opt/xbb/xbb-source.sh..."
-    source "/opt/xbb/xbb-source.sh"
-  fi
-
-  TARGET_OS="$(uname | tr '[:upper:]' '[:lower:]')"
-  if [ "${TARGET_OS}" == "darwin" ]
-  then
-    TARGET_OS="macos"
-  fi
-  TARGET_BITS="${HOST_BITS}"
-
-  # TARGET_FOLDER_NAME="${TARGET_OS}${TARGET_BITS}"
-
-  BUILD_FOLDER_PATH="${WORK_FOLDER_PATH}/build"
-  INSTALL_FOLDER_PATH="${WORK_FOLDER_PATH}/install"
-  
-  APP_PREFIX="${INSTALL_FOLDER_PATH}"
-  APP_PREFIX_DOC="${APP_PREFIX}"/doc
-
   # ---------------------------------------------------------------------------
 
   EXTRA_CPPFLAGS=""
@@ -63,7 +36,7 @@ function native_prepare_prerequisites()
   export CC="gcc"
   export CXX="g++"
 
-  if [ "${TARGET_OS}" == "linux" ]
+  if [ "${TARGET_PLATFORM}" == "linux" ]
   then
     if [ ! -z "$(which "g++-7")" ]
     then
@@ -73,20 +46,27 @@ function native_prepare_prerequisites()
     # Do not add -static here, it fails.
     # Do not try to link pthread statically, it must match the system glibc.
     EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static-libstdc++ -Wl,--gc-sections"
-  elif [ "${TARGET_OS}" == "macos" ]
+  elif [ "${TARGET_PLATFORM}" == "darwin" ]
   then
     export CC="gcc-7"
     export CXX="g++-7"
     # Note: macOS linker ignores -static-libstdc++, so 
     # libstdc++.6.dylib should be handled.
     EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -Wl,-dead_strip"
-  elif [ "${TARGET_OS}" == "win" ]
+  elif [ "${TARGET_PLATFORM}" == "win32" ]
   then
     # CRT_glob is from ARM script
     # -static avoids libwinpthread-1.dll 
     # -static-libgcc avoids libgcc_s_sjlj-1.dll 
     EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static -static-libgcc -static-libstdc++ -Wl,--gc-sections"
   fi
+
+  set +u
+  if [ ! -z "${XBB_FOLDER}" -a -x "${XBB_FOLDER}"/bin/pkg-config-verbose ]
+  then
+    export PKG_CONFIG="${XBB_FOLDER}"/bin/pkg-config-verbose
+  fi
+  set -u
 
   echo
   echo "CC=${CC}"
@@ -97,6 +77,10 @@ function native_prepare_prerequisites()
   echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}"
 
   echo "EXTRA_LDFLAGS_APP=${EXTRA_LDFLAGS_APP}"
+
+  set +u
+  echo "PKG_CONFIG=${PKG_CONFIG}"
+  set -u
 }
 
 # -----------------------------------------------------------------------------
@@ -131,26 +115,32 @@ function download_qemu()
   fi
 }
 
-# Default empty definition, if XBB is available, it should
-# redefine it.
-function xbb_activate()
+function do_actions()
 {
-  :
-}
-
-# Default, to fix the missing definition on ARCH.
-function xbb_activate_dev()
-{
-  if [ "${TARGET_OS}" == "linux" ]
+  if [ "${ACTION}" == "clean" -o "${ACTION}" == "cleanall" ]
   then
-    if [ ! -z "${PKG_CONFIG_PATH}" ]
-    then
-      if [ -d "/usr/lib/pkgconfig" ]
-      then
-        PKG_CONFIG_PATH="/usr/lib/pkgconfig"
-      fi
-    fi
-    export PKG_CONFIG_PATH
+    echo
+    echo "Removing the build and include qemu folders..."
+
+    rm -rf "${HOST_WORK_FOLDER_PATH}/${TARGET_FOLDER_NAME}/build/${APP_LC_NAME}"
+    rm -rf "${HOST_WORK_FOLDER_PATH}/${TARGET_FOLDER_NAME}/install/${APP_LC_NAME}"
+  fi
+
+  if [ "${ACTION}" == "cleanlibs" -o "${ACTION}" == "cleanall" ]
+  then
+    echo
+    echo "Removing the build and include libs folders..."
+
+    rm -rf "${HOST_WORK_FOLDER_PATH}/${TARGET_FOLDER_NAME}/build/libs"
+    rm -rf "${HOST_WORK_FOLDER_PATH}/${TARGET_FOLDER_NAME}/install/libs"
+  fi
+
+  if [ "${ACTION}" == "clean" -o "${ACTION}" == "cleanlibs" -o "${ACTION}" == "cleanall" ]
+  then
+    echo
+    echo "Clean completed. Proceed with a regular build."
+
+    exit 0
   fi
 }
 

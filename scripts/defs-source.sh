@@ -29,4 +29,7 @@ CONTAINER_SCRIPT_NAME=${CONTAINER_SCRIPT_NAME:-"container-build.sh"}
 CONTAINER_LIB_FUNCTIONS_SCRIPT_NAME=${CONTAINER_LIB_FUNCTIONS_SCRIPT_NAME:-"container-lib-functions-source.sh"}
 CONTAINER_APP_FUNCTIONS_SCRIPT_NAME=${CONTAINER_APP_FUNCTIONS_SCRIPT_NAME:-"container-qemu-arm-functions-source.sh"}
 
+COMMON_LIBS_FUNCTIONS_SCRIPT_NAME=${COMMON_LIBS_FUNCTIONS_SCRIPT_NAME:-"common-libs-functions-source.sh"}
+COMMON_APP_FUNCTIONS_SCRIPT_NAME=${COMMON_APP_FUNCTIONS_SCRIPT_NAME:-"common-qemu-functions-source.sh"}
+
 # -----------------------------------------------------------------------------
