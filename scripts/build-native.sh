@@ -188,6 +188,10 @@ fi
 
 QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-""}
 
+# libtool fails with the Ubuntu /bin/sh.
+export SHELL=/bin/bash
+export CONFIG_SHELL=/bin/bash
+
 # -----------------------------------------------------------------------------
 
 # ZLIB_VERSION="1.2.8"
