@@ -18,6 +18,19 @@ set -o nounset # Exit if variable not set.
 IFS=$'\n\t'
 
 # -----------------------------------------------------------------------------
+# Identify the script location, to reach, for example, the helper scripts.
+
+build_script_path="$0"
+if [[ "${build_script_path}" != /* ]]
+then
+  # Make relative path absolute.
+  build_script_path="$(pwd)/$0"
+fi
+
+script_folder_path="$(dirname "${build_script_path}")"
+script_folder_name="$(basename "${script_folder_path}")"
+
+# =============================================================================
 
 # Script to build the GNU MCU Eclipse ARM QEMU distribution packages.
 #
@@ -124,17 +137,6 @@ then
 fi
 
 # -----------------------------------------------------------------------------
-# Identify helper scripts.
-
-build_script_path=$0
-if [[ "${build_script_path}" != /* ]]
-then
-  # Make relative path absolute.
-  build_script_path=$(pwd)/$0
-fi
-
-script_folder_path="$(dirname ${build_script_path})"
-script_folder_name="$(basename ${script_folder_path})"
 
 if [ -f "${script_folder_path}"/VERSION ]
 then
