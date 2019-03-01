@@ -121,7 +121,8 @@ function do_libpng()
   LIBPNG_SRC_FOLDER_NAME="libpng-${LIBPNG_VERSION}"
   LIBPNG_FOLDER_NAME="${LIBPNG_SRC_FOLDER_NAME}"
   local libpng_archive="${LIBPNG_SRC_FOLDER_NAME}.tar.xz"
-  local libpng_url="https://sourceforge.net/projects/libpng/files/${LIBPNG_SFOLDER}/older-releases/${LIBPNG_VERSION}/${libpng_archive}"
+  # local libpng_url="https://sourceforge.net/projects/libpng/files/${LIBPNG_SFOLDER}/older-releases/${LIBPNG_VERSION}/${libpng_archive}"
+  local libpng_url="https://sourceforge.net/projects/libpng/files/${LIBPNG_SFOLDER}/${LIBPNG_VERSION}/${libpng_archive}"
 
   local libpng_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-libpng-installed"
   if [ ! -f "${libpng_stamp_file_path}" ]
