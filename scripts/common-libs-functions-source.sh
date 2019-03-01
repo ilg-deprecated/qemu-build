@@ -159,7 +159,7 @@ function do_libpng()
             --host=${HOST} \
             --target=${TARGET} \
             \
-            --disable-shared \
+            --enable-shared \
             --enable-static
 
           cp "config.log" "${INSTALL_FOLDER_PATH}/config-libpng-log.txt"
@@ -240,7 +240,7 @@ function do_jpeg()
             --host=${HOST} \
             --target=${TARGET} \
             \
-            --disable-shared \
+            --enable-shared \
             --enable-static
 
           cp "config.log" "${INSTALL_FOLDER_PATH}/config-jpeg-log.txt"
