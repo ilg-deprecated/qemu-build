@@ -117,8 +117,13 @@ done
 
 if [ "${DO_BUILD_WIN}" == "y" ]
 then
-  echo "Windows builds not yet supported."
-  exit 1
+  if [ "${HOST_NODE_PLATFORM}" == "linux" ]
+  then
+    TARGET_PLATFORM="win32"
+  else
+    echo "Windows cross builds are available only on Linux."
+    exit 1
+  fi
 fi
 
 
@@ -262,7 +267,7 @@ then
 
   do_libffi
 
-  # if [ "${TARGET_OS}" == "_win" ]
+  # if [ "${TARGET_PLATFORM}" == "win32" ]
   # then
   #   do_libxml2
   # fi
