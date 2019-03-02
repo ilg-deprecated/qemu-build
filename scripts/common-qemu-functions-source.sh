@@ -143,6 +143,9 @@ function do_native_qemu()
         then
           echo
           wine "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
+        else
+          echo
+          echo "Install wine if you want to test is the binaries start."
         fi
       fi
     ) 2>&1 | tee "${INSTALL_FOLDER_PATH}/make-qemu-output.txt"
