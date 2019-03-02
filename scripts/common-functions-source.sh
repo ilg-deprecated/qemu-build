@@ -79,7 +79,11 @@ function native_prepare_prerequisites()
   echo "EXTRA_LDFLAGS_APP=${EXTRA_LDFLAGS_APP}"
 
   set +u
-  echo "PKG_CONFIG=${PKG_CONFIG}"
+  if [ "${TARGET_PLATFORM}" == "win32" -a ! -z "${CC}" -a ! -z  "${CXX}" ]
+  then
+    echo "CC and CXX must not be set for cross builds."
+    exit 1
+  fi
   set -u
 }
 
