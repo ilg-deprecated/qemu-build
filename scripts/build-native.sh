@@ -193,6 +193,8 @@ fi
 
 QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-""}
 
+HAS_WINPTHREAD=""
+
 # libtool fails with the Ubuntu /bin/sh.
 export SHELL=/bin/bash
 export CONFIG_SHELL=/bin/bash
