@@ -30,7 +30,7 @@ function do_zlib()
   if [ ! -f "${zlib_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${zlib_url}" "${zlib_archive}" \
       "${ZLIB_SRC_FOLDER_NAME}"
@@ -40,7 +40,7 @@ function do_zlib()
       then
         mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${ZLIB_FOLDER_NAME}"
         # Copy the sources in the build folder.
-        cp -r "${WORK_FOLDER_PATH}/${ZLIB_SRC_FOLDER_NAME}"/* "${LIBS_BUILD_FOLDER_PATH}/${ZLIB_FOLDER_NAME}"
+        cp -r "${SOURCES_FOLDER_PATH}/${ZLIB_SRC_FOLDER_NAME}"/* "${LIBS_BUILD_FOLDER_PATH}/${ZLIB_FOLDER_NAME}"
       fi
       cd "${LIBS_BUILD_FOLDER_PATH}/${ZLIB_FOLDER_NAME}"
 
@@ -128,7 +128,7 @@ function do_libpng()
   if [ ! -f "${libpng_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${libpng_url}" "${libpng_archive}" \
       "${LIBPNG_SRC_FOLDER_NAME}"
@@ -151,10 +151,10 @@ function do_libpng()
           echo
           echo "Running libpng configure..."
 
-          bash "${WORK_FOLDER_PATH}/${LIBPNG_SRC_FOLDER_NAME}/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${LIBPNG_SRC_FOLDER_NAME}/configure" --help
 
           # --enable-shared needed by SDL2_image on CentOS 64-bit and Ubuntu.
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${LIBPNG_SRC_FOLDER_NAME}/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${LIBPNG_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -209,7 +209,7 @@ function do_jpeg()
   if [ ! -f "${jpeg_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${jpeg_url}" "${jpeg_archive}" \
       "${JPEG_SRC_FOLDER_NAME}"
@@ -232,10 +232,10 @@ function do_jpeg()
           echo
           echo "Running jpeg configure..."
 
-          bash "${WORK_FOLDER_PATH}/${JPEG_SRC_FOLDER_NAME}/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${JPEG_SRC_FOLDER_NAME}/configure" --help
 
           # --enable-shared needed by SDL2_image on CentOS 64-bit and Ubuntu.
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${JPEG_SRC_FOLDER_NAME}/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${JPEG_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -291,7 +291,7 @@ function do_sdl2()
   if [ ! -f "${sdl2_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${sdl2_url}" "${sdl2_archive}" \
       "${SDL2_SRC_FOLDER_NAME}"
@@ -335,11 +335,11 @@ function do_sdl2()
             X11="--without-x"
           fi
 
-          bash "${WORK_FOLDER_PATH}/${SDL2_SRC_FOLDER_NAME}/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${SDL2_SRC_FOLDER_NAME}/configure" --help
 
           # --enable-shared required for building sdl2_image showimage
           # --dsable-shared fails on macOS
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${SDL2_SRC_FOLDER_NAME}/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${SDL2_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -393,7 +393,7 @@ function do_sdl2_image()
   if [ ! -f "${sdl2_image_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${sdl2_image_url}" "${sdl2_image_archive}" \
       "${SDL2_IMAGE_SRC_FOLDER_NAME}"
@@ -436,11 +436,11 @@ function do_sdl2_image()
             IMAGEIO="--enable-imageio"
           fi
 
-          bash "${WORK_FOLDER_PATH}/${SDL2_IMAGE_SRC_FOLDER_NAME}/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${SDL2_IMAGE_SRC_FOLDER_NAME}/configure" --help
 
           # --enable-shared required for building showimage
           # --disable-shared failes on macOS
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${SDL2_IMAGE_SRC_FOLDER_NAME}/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${SDL2_IMAGE_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -514,7 +514,7 @@ function do_libffi()
   if [ ! -f "${libffi_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${libffi_url}" "${libffi_archive}" \
       "${LIBFFI_SRC_FOLDER_NAME}"
@@ -537,10 +537,10 @@ function do_libffi()
           echo
           echo "Running libffi configure..."
 
-          bash "${WORK_FOLDER_PATH}/${LIBFFI_SRC_FOLDER_NAME}/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${LIBFFI_SRC_FOLDER_NAME}/configure" --help
 
           # --enable-pax_emutramp is inspired by AUR
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${LIBFFI_SRC_FOLDER_NAME}/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${LIBFFI_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -598,7 +598,7 @@ function do_libiconv()
   if [ ! -f "${libiconv_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${libiconv_url}" "${libiconv_archive}" \
       "${LIBICONV_SRC_FOLDER_NAME}"
@@ -624,9 +624,9 @@ function do_libiconv()
           echo
           echo "Running libiconv configure..."
 
-          bash "${WORK_FOLDER_PATH}/${LIBICONV_SRC_FOLDER_NAME}/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${LIBICONV_SRC_FOLDER_NAME}/configure" --help
 
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${LIBICONV_SRC_FOLDER_NAME}/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${LIBICONV_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -683,7 +683,7 @@ function do_gettext()
   if [ ! -f "${gettext_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${gettext_url}" "${gettext_archive}" \
       "${GETTEXT_SRC_FOLDER_NAME}"
@@ -724,10 +724,10 @@ function do_gettext()
 
           # Build only the /gettext-runtime folder, attempts to build
           # the full package fail with a CXX='no' problem.
-          bash "${WORK_FOLDER_PATH}/${GETTEXT_SRC_FOLDER_NAME}/gettext-runtime/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${GETTEXT_SRC_FOLDER_NAME}/gettext-runtime/configure" --help
 
           #  --enable-nls needed to include libintl
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${GETTEXT_SRC_FOLDER_NAME}/gettext-runtime/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${GETTEXT_SRC_FOLDER_NAME}/gettext-runtime/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -791,7 +791,7 @@ function do_glib()
   if [ ! -f "${glib_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${glib_url}" "${glib_archive}" \
       "${GLIB_SRC_FOLDER_NAME}"
@@ -823,13 +823,13 @@ function do_glib()
           echo
           echo "Running glib configure..."
 
-          bash "${WORK_FOLDER_PATH}/${GLIB_SRC_FOLDER_NAME}/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${GLIB_SRC_FOLDER_NAME}/configure" --help
 
           # --disable-shared fails on macOS
           # --with-libiconv=gnu required on Linux
           # --disble-static rewuired for Windows
           # configure: error: Can not build both shared and static at the same time on Windows.
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${GLIB_SRC_FOLDER_NAME}/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${GLIB_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -901,7 +901,7 @@ function do_pixman()
   if [ ! -f "${pixman_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${pixman_url}" "${pixman_archive}" \
       "${PIXMAN_SRC_FOLDER_NAME}"
@@ -927,10 +927,10 @@ function do_pixman()
           echo
           echo "Running pixman configure..."
 
-          bash "${WORK_FOLDER_PATH}/${PIXMAN_SRC_FOLDER_NAME}/configure" --help
+          bash "${SOURCES_FOLDER_PATH}/${PIXMAN_SRC_FOLDER_NAME}/configure" --help
 
           # --disable-shared fails on macOS
-          bash ${DEBUG} "${WORK_FOLDER_PATH}/${PIXMAN_SRC_FOLDER_NAME}/configure" \
+          bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${PIXMAN_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
             --build=${BUILD} \
@@ -990,7 +990,7 @@ function do_libxml2()
   if [ ! -f "${libxml2_stamp_file_path}" ]
   then
 
-    cd "${WORK_FOLDER_PATH}"
+    cd "${SOURCES_FOLDER_PATH}"
 
     download_and_extract "${libxml2_url}" "${libxml2_archive}" \
       "${LIBXML2_SRC_FOLDER_NAME}"

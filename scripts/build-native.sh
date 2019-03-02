@@ -157,8 +157,11 @@ source "${common_functions_script_path}"
 # -----------------------------------------------------------------------------
 
 # The Work folder is in HOME.
-HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-dev"}
+HOST_WORK_FOLDER_PATH="${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-dev"}"
 mkdir -p "${HOST_WORK_FOLDER_PATH}"
+
+SOURCES_FOLDER_PATH="${SOURCES_FOLDER_PATH:-"${HOST_WORK_FOLDER_PATH}/sources"}"
+mkdir -p "${SOURCES_FOLDER_PATH}"
 
 host_prepare_cache
 
