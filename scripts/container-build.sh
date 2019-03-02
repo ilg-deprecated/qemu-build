@@ -157,10 +157,10 @@ detect_container
 # Fix the texinfo path in XBB v1.
 if [ -f "/.dockerenv" -a -f "/opt/xbb/xbb.sh" ]
 then
-  if [ "${TARGET_BITS}" == "64" ]
+  if [ "${TARGET_ARCH}" == "x64" ]
   then
     sed -e "s|texlive/bin/\$\(uname -p\)-linux|texlive/bin/x86_64-linux|" /opt/xbb/xbb.sh > /opt/xbb/xbb-source.sh
-  elif [ "${TARGET_BITS}" == "32" ]
+  elif [ "${TARGET_ARCH}" == "x32" ]
   then
     sed -e "s|texlive/bin/[$][(]uname -p[)]-linux|texlive/bin/i386-linux|" /opt/xbb/xbb.sh > /opt/xbb/xbb-source.sh
   fi
@@ -242,7 +242,7 @@ then
 fi
 
 export PKG_CONFIG=pkg-config-verbose
-if [ "${TARGET_OS}" == "linux" -a "${TARGET_BITS}" == "64" ]
+if [ "${TARGET_OS}" == "linux" -a "${TARGET_ARCH}" == "x64" ]
 then
   export PKG_CONFIG_LIBDIR="${INSTALL_FOLDER_PATH}"/lib64/pkgconfig:"${INSTALL_FOLDER_PATH}"/lib/pkgconfig
 else

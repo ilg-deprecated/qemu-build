@@ -94,10 +94,10 @@ function do_qemu()
           # Copy all compiled DLLs
           cp -v "${INSTALL_FOLDER_PATH}/bin/"*.dll "${APP_PREFIX}/bin"
 
-          if [ "${TARGET_BITS}" == "32" ]
+          if [ "${TARGET_ARCH}" == "32" ]
           then
             copy_win_gcc_dll "libgcc_s_sjlj-1.dll"
-          elif [ "${TARGET_BITS}" == "64" ]
+          elif [ "${TARGET_ARCH}" == "64" ]
           then
             copy_win_gcc_dll "libgcc_s_seh-1.dll"
           fi
