@@ -123,6 +123,16 @@ function do_native_qemu()
         # Copy .../7.3-win32/libssp-0.dll (Stack smashing protection).
         cp -v "/usr/lib/gcc/${CROSS_COMPILE_PREFIX}/${gcc_version}/libssp-0.dll" "${APP_PREFIX}/bin"
 
+        if [ "${TARGET_ARCH}" == "x32" ]
+        then
+          # copy_win_gcc_dll "libgcc_s_sjlj-1.dll"
+          cp -v "/usr/lib/gcc/${CROSS_COMPILE_PREFIX}/${gcc_version}/libgcc_s_sjlj-1.dll" "${APP_PREFIX}/bin"
+        elif [ "${TARGET_ARCH}" == "x64" ]
+        then
+          # copy_win_gcc_dll "libgcc_s_seh-1.dll"
+          cp -v "/usr/lib/gcc/${CROSS_COMPILE_PREFIX}/${gcc_version}/libgcc_s_seh-1.dll" "${APP_PREFIX}/bin"
+        fi
+
         local binaries=$(find ${APP_PREFIX} -name \*.exe)
         for bin in ${binaries}
         do
