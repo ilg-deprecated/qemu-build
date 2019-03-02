@@ -55,7 +55,7 @@ function native_prepare_prerequisites()
     # CRT_glob is from ARM script
     # -static avoids libwinpthread-1.dll 
     # -static-libgcc avoids libgcc_s_sjlj-1.dll 
-    EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static -static-libgcc -static-libstdc++ -Wl,--gc-sections"
+    EXTRA_LDFLAGS_APP="${EXTRA_LDFLAGS} -static-libgcc -static-libstdc++ -Wl,--gc-sections"
   fi
 
   set +u
