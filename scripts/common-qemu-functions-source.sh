@@ -90,22 +90,22 @@ function do_native_qemu()
         strip "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
       fi
 
-      if [ "${TARGET_PLATFORM}" != "win32" ]
-      then
-        echo
-        "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
-      fi
-
       if [ "${TARGET_PLATFORM}" == "linux" ]
       then
         echo
         echo "Shared libraries:"
         readelf -d "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" | grep 'Shared library:'
+
+        echo
+        "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
       elif [ "${TARGET_PLATFORM}" == "darwin" ]
       then
         echo
         echo "Dynamic libraries:"
         otool -L "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
+
+        echo
+        "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
       elif [ "${TARGET_PLATFORM}" == "win32" ]
       then
         echo
