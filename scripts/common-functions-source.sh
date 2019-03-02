@@ -33,9 +33,6 @@ function native_prepare_prerequisites()
 
   PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-""}
 
-  export CC="gcc"
-  export CXX="g++"
-
   if [ "${TARGET_PLATFORM}" == "linux" ]
   then
     if [ ! -z "$(which "g++-7")" ]
