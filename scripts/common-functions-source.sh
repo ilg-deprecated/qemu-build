@@ -65,6 +65,7 @@ function native_prepare_prerequisites()
   fi
   set -u
 
+  set +u
   echo
   echo "CC=${CC}"
   echo "CXX=${CXX}"
@@ -74,6 +75,9 @@ function native_prepare_prerequisites()
   echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}"
 
   echo "EXTRA_LDFLAGS_APP=${EXTRA_LDFLAGS_APP}"
+
+  echo "PKG_CONFIG=${PKG_CONFIG}"
+  set -u
 
   set +u
   if [ "${TARGET_PLATFORM}" == "win32" -a ! -z "${CC}" -a ! -z  "${CXX}" ]
