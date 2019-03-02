@@ -106,6 +106,28 @@ function do_native_qemu()
         echo
         echo "Dynamic libraries:"
         otool -L "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
+      elif [ "${TARGET_PLATFORM}" == "win32" ]
+      then
+        echo
+        echo "Dynamic libraries:"
+        echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
+        ${CROSS_COMPILE_PREFIX}-objdump -x "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" | grep -i 'DLL Name'
+
+        echo
+        echo "Copying all compiled DLLs"
+        cp -v "${LIBS_INSTALL_FOLDER_PATH}/bin/"*.dll "${APP_PREFIX}/bin"
+
+        # Version looks like '7.3-win32'.
+        local gcc_version=$(${CROSS_COMPILE_PREFIX}-gcc --version | grep gcc | sed -e 's/.*\s\([0-9]*\)[.]\([0-9]*\)[-]\([0-9a-zA-Z]*\).*/\1.\2-\3/')
+
+        # Copy .../7.3-win32/libssp-0.dll (Stack smashing protection).
+        cp -v "/usr/lib/gcc/${CROSS_COMPILE_PREFIX}/${gcc_version}/libssp-0.dll" "${APP_PREFIX}/bin"
+
+        local binaries=$(find ${APP_PREFIX} -name \*.exe)
+        for bin in ${binaries}
+        do
+          check_binary "${bin}"
+        done
       fi
     ) 2>&1 | tee "${INSTALL_FOLDER_PATH}/make-qemu-output.txt"
   )
