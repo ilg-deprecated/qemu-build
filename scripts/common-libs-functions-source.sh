@@ -162,7 +162,7 @@ function do_libpng()
             --target=${TARGET} \
             \
             --enable-shared \
-            --enable-static
+            --disable-static
 
           cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-libpng-log.txt"
         ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-libpng-output.txt"
@@ -243,7 +243,7 @@ function do_jpeg()
             --target=${TARGET} \
             \
             --enable-shared \
-            --enable-static
+            --disable-static
 
           cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-jpeg-log.txt"
         ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-jpeg-output.txt"
@@ -347,7 +347,7 @@ function do_sdl2()
             --target=${TARGET} \
             \
             --enable-shared \
-            --enable-static \
+            --disable-static \
             \
             --enable-video \
             ${OPENGL} \
@@ -448,7 +448,7 @@ function do_sdl2_image()
             --target=${TARGET} \
             \
             --enable-shared \
-            --enable-static \
+            --disable-static \
             \
             --disable-sdltest \
             ${IMAGEIO} \
@@ -547,8 +547,8 @@ function do_libffi()
             --host=${HOST} \
             --target=${TARGET} \
             \
-            --disable-shared \
-            --enable-static \
+            --enable-shared \
+            --disable-static \
             --enable-pax_emutramp
 
           cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-libffi-log.txt"
@@ -634,7 +634,7 @@ function do_libiconv()
             --target=${TARGET} \
             \
             --enable-shared \
-            --enable-static \
+            --disable-static \
             --disable-nls
 
           cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-libiconv-log.txt"
@@ -827,6 +827,8 @@ function do_glib()
 
           # --disable-shared fails on macOS
           # --with-libiconv=gnu required on Linux
+          # --disble-static rewuired for Windows
+          # configure: error: Can not build both shared and static at the same time on Windows.
           bash ${DEBUG} "${WORK_FOLDER_PATH}/${GLIB_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
@@ -835,7 +837,7 @@ function do_glib()
             --target=${TARGET} \
             \
             --enable-shared \
-            --enable-static \
+            --disable-static \
             \
             --with-libiconv=gnu \
             --without-pcre \
@@ -936,7 +938,7 @@ function do_pixman()
             --target=${TARGET} \
             \
             --enable-shared \
-            --enable-static \
+            --disable-static \
             \
             --with-gnu-ld \
             --disable-static-testprogs
@@ -1036,8 +1038,8 @@ function do_libxml2()
             --host=${HOST} \
             --target=${TARGET} \
             \
-            --disable-shared \
-            --enable-static \
+            --enable-shared \
+            --disable-static \
             --without-python
 
           cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-libxml2-log.txt"
