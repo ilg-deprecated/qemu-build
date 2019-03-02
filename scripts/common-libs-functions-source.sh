@@ -402,6 +402,9 @@ function do_sdl2_image()
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${SDL2_IMAGE_FOLDER_NAME}"
       cd "${LIBS_BUILD_FOLDER_PATH}/${SDL2_IMAGE_FOLDER_NAME}"
 
+      # The windows build checks this.
+      mkdir -p lib
+
       xbb_activate
       xbb_activate_this
 
@@ -901,6 +904,9 @@ function do_pixman()
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${PIXMAN_FOLDER_NAME}"
       cd "${LIBS_BUILD_FOLDER_PATH}/${PIXMAN_FOLDER_NAME}"
+
+      # Windows libtool chaks for it.
+      mkdir -p test/lib
 
       xbb_activate
       xbb_activate_this
