@@ -408,7 +408,10 @@ function do_sdl2_image()
       xbb_activate
       xbb_activate_this
 
-      export CC=gcc
+      if [ "${TARGET_PLATFORM}" != "win32" ]
+      then
+        export CC=gcc
+      fi
 
       export CFLAGS="${EXTRA_CFLAGS} -Wno-macro-redefined"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
