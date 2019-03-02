@@ -17,7 +17,12 @@ function do_native_qemu()
 
     export LDFLAGS="${EXTRA_LDFLAGS_APP}"
 
-    CROSS=""
+    if [ "${TARGET_PLATFORM}" == "win32" ]
+    then
+      CROSS="--cross-prefix=${CROSS_COMPILE_PREFIX}-"
+    else
+      CROSS=""
+    fi
 
     (
       if [ ! -f "config.status" ]
