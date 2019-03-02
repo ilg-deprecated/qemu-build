@@ -138,6 +138,9 @@ function do_native_qemu()
         do
           check_binary "${bin}"
         done
+
+        echo
+        wine "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
       fi
     ) 2>&1 | tee "${INSTALL_FOLDER_PATH}/make-qemu-output.txt"
   )
