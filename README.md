@@ -68,12 +68,26 @@ $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh
 The result is in `Work/qemu-dev/install`, with the executable in the 
 `bin` folder.
 
+For development builds, use:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --develop --debug
+```
+
 ### Clean
 
 To clean the folders in preparation for a new build:
 
 ```console
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh clean
+```
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh cleanlibs
+```
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh cleanall
 ```
 
 ### DEVELOP.md
