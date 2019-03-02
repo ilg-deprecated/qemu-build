@@ -117,7 +117,7 @@ function download_qemu()
 
 function do_actions()
 {
-  if [ "${ACTION}" == "clean" -o "${ACTION}" == "cleanall" ]
+  if [ "${ACTION}" == "clean" ]
   then
     echo
     echo "Removing the build and include qemu folders..."
@@ -126,13 +126,21 @@ function do_actions()
     rm -rf "${HOST_WORK_FOLDER_PATH}/${TARGET_FOLDER_NAME}/install/${APP_LC_NAME}"
   fi
 
-  if [ "${ACTION}" == "cleanlibs" -o "${ACTION}" == "cleanall" ]
+  if [ "${ACTION}" == "cleanlibs" ]
   then
     echo
     echo "Removing the build and include libs folders..."
 
     rm -rf "${HOST_WORK_FOLDER_PATH}/${TARGET_FOLDER_NAME}/build/libs"
     rm -rf "${HOST_WORK_FOLDER_PATH}/${TARGET_FOLDER_NAME}/install/libs"
+  fi
+
+  if [ "${ACTION}" == "cleanall" ]
+  then
+    echo
+    echo "Removing the ${TARGET_FOLDER_NAME} folder..."
+    
+    rm -rf "${HOST_WORK_FOLDER_PATH}/${TARGET_FOLDER_NAME}"
   fi
 
   if [ "${ACTION}" == "clean" -o "${ACTION}" == "cleanlibs" -o "${ACTION}" == "cleanall" ]
