@@ -80,7 +80,7 @@ do
       ;;
 
     --win|--windows)
-      DO_BUILD_WIN32="y"
+      DO_BUILD_WIN="y"
       ;;
 
     --debug)
