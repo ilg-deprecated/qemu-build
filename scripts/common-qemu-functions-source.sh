@@ -139,13 +139,17 @@ function do_native_qemu()
           check_binary "${bin}"
         done
 
-        if [ ! -z "$(which wine)" ]
+        if [ ! -z "$(which wsl.exe)" ]
         then
           echo
-          wine "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
+          "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
+        elif [ ! -z "$(which wine)" ]
+        then
+          echo
+          wine "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
         else
           echo
-          echo "Install wine if you want to test is the binaries start."
+          echo "Install wine if you want to run the .exe binaries on Linux."
         fi
       fi
     ) 2>&1 | tee "${INSTALL_FOLDER_PATH}/make-qemu-output.txt"
