@@ -74,6 +74,15 @@ For development builds, use:
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --develop --debug
 ```
 
+To create the Windows binaries, use:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --develop --debug --win
+```
+
+The Windows binaries are cross compiled with mingw-w64; this works on 
+Ubuntu 18 LTS, including when running it under WSL (Windows System for Linux).
+
 ### Clean
 
 To clean the folders in preparation for a new build:
