@@ -65,8 +65,8 @@ script without other options:
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh
 ```
 
-The result is in `Work/qemu-dev/install`, with the executable in the 
-`bin` folder.
+The result is in `Work/qemu-dev/${platform}-${arch}/install/qemu`, 
+with the executable in the `bin` folder.
 
 For development builds, use:
 
