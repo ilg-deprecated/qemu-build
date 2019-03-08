@@ -10,7 +10,10 @@
 
 function do_qemu() 
 {
-  download_qemu
+  (
+    xbb_activate
+    download_qemu
+  )
 
   (
     mkdir -p "${APP_BUILD_FOLDER_PATH}"

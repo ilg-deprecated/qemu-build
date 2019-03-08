@@ -33,8 +33,11 @@ function do_zlib()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${zlib_url}" "${zlib_archive}" \
+    (
+      xbb_activate      
+      download_and_extract "${zlib_url}" "${zlib_archive}" \
       "${ZLIB_SRC_FOLDER_NAME}"
+    )
 
     (
       if [ ! -d "${LIBS_BUILD_FOLDER_PATH}/${ZLIB_FOLDER_NAME}" ]
@@ -133,8 +136,11 @@ function do_libpng()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${libpng_url}" "${libpng_archive}" \
-      "${LIBPNG_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${libpng_url}" "${libpng_archive}" \
+        "${LIBPNG_SRC_FOLDER_NAME}"
+    )
 
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${LIBPNG_FOLDER_NAME}"
@@ -214,8 +220,11 @@ function do_jpeg()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${jpeg_url}" "${jpeg_archive}" \
-      "${JPEG_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${jpeg_url}" "${jpeg_archive}" \
+        "${JPEG_SRC_FOLDER_NAME}"
+    )
 
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${JPEG_FOLDER_NAME}"
@@ -297,8 +306,11 @@ function do_sdl2()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${sdl2_url}" "${sdl2_archive}" \
-      "${SDL2_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${sdl2_url}" "${sdl2_archive}" \
+        "${SDL2_SRC_FOLDER_NAME}"
+    )
 
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${SDL2_FOLDER_NAME}"
@@ -400,8 +412,11 @@ function do_sdl2_image()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${sdl2_image_url}" "${sdl2_image_archive}" \
-      "${SDL2_IMAGE_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${sdl2_image_url}" "${sdl2_image_archive}" \
+        "${SDL2_IMAGE_SRC_FOLDER_NAME}"
+    )
 
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${SDL2_IMAGE_FOLDER_NAME}"
@@ -523,8 +538,11 @@ function do_libffi()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${libffi_url}" "${libffi_archive}" \
-      "${LIBFFI_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${libffi_url}" "${libffi_archive}" \
+        "${LIBFFI_SRC_FOLDER_NAME}"
+    )
 
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${LIBFFI_FOLDER_NAME}"
@@ -607,8 +625,11 @@ function do_libiconv()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${libiconv_url}" "${libiconv_archive}" \
-      "${LIBICONV_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${libiconv_url}" "${libiconv_archive}" \
+        "${LIBICONV_SRC_FOLDER_NAME}"
+    )
 
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${LIBICONV_FOLDER_NAME}"
@@ -692,8 +713,11 @@ function do_gettext()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${gettext_url}" "${gettext_archive}" \
-      "${GETTEXT_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${gettext_url}" "${gettext_archive}" \
+        "${GETTEXT_SRC_FOLDER_NAME}"
+    )
 
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${GETTEXT_FOLDER_NAME}"
@@ -804,8 +828,11 @@ function do_glib()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${glib_url}" "${glib_archive}" \
-      "${GLIB_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${glib_url}" "${glib_archive}" \
+        "${GLIB_SRC_FOLDER_NAME}"
+    )
 
     (
       # Hack, /gio/lib added because libtool needs it on Win32.
@@ -924,8 +951,11 @@ function do_pixman()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${pixman_url}" "${pixman_archive}" \
-      "${PIXMAN_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${pixman_url}" "${pixman_archive}" \
+        "${PIXMAN_SRC_FOLDER_NAME}"
+    )
 
     (
       mkdir -p "${LIBS_BUILD_FOLDER_PATH}/${PIXMAN_FOLDER_NAME}"
@@ -1013,8 +1043,11 @@ function do_libxml2()
 
     cd "${SOURCES_FOLDER_PATH}"
 
-    download_and_extract "${libxml2_url}" "${libxml2_archive}" \
-      "${LIBXML2_SRC_FOLDER_NAME}"
+    (
+      xbb_activate      
+      download_and_extract "${libxml2_url}" "${libxml2_archive}" \
+        "${LIBXML2_SRC_FOLDER_NAME}"
+    )
 
     # Fails if not built in place.
     if [ ! -d "${LIBS_BUILD_FOLDER_PATH}/${LIBXML2_FOLDER_NAME}" ]
