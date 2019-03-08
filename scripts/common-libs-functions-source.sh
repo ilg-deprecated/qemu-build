@@ -26,7 +26,7 @@ function do_zlib()
   # local zlib_url="http://zlib.net/fossils/${zlib_archive}"
   local zlib_url="https://github.com/gnu-mcu-eclipse/files/raw/master/libs/${zlib_archive}"
 
-  local zlib_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-zlib-installed"
+  local zlib_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-zlib-installed"
   if [ ! -f "${zlib_stamp_file_path}" ]
   then
 
@@ -124,7 +124,7 @@ function do_libpng()
   # local libpng_url="https://sourceforge.net/projects/libpng/files/${LIBPNG_SFOLDER}/older-releases/${LIBPNG_VERSION}/${libpng_archive}"
   local libpng_url="https://sourceforge.net/projects/libpng/files/${LIBPNG_SFOLDER}/${LIBPNG_VERSION}/${libpng_archive}"
 
-  local libpng_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-libpng-installed"
+  local libpng_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-libpng-installed"
   if [ ! -f "${libpng_stamp_file_path}" ]
   then
 
@@ -205,7 +205,7 @@ function do_jpeg()
   local jpeg_archive="jpegsrc.v${JPEG_VERSION}.tar.gz"
   local jpeg_url="http://www.ijg.org/files/${jpeg_archive}"
 
-  local jpeg_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-jpeg-installed"
+  local jpeg_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-jpeg-installed"
   if [ ! -f "${jpeg_stamp_file_path}" ]
   then
 
@@ -287,7 +287,7 @@ function do_sdl2()
   local sdl2_archive="${SDL2_SRC_FOLDER_NAME}.tar.gz"
   local sdl2_url="https://www.libsdl.org/release/${sdl2_archive}"
 
-  local sdl2_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-sdl2-installed"
+  local sdl2_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-sdl2-installed"
   if [ ! -f "${sdl2_stamp_file_path}" ]
   then
 
@@ -389,7 +389,7 @@ function do_sdl2_image()
   local sdl2_image_archive="${SDL2_IMAGE_SRC_FOLDER_NAME}.tar.gz"
   local sdl2_image_url="https://www.libsdl.org/projects/SDL_image/release/${sdl2_image_archive}"
 
-  local sdl2_image_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-sdl2-image-installed"
+  local sdl2_image_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-sdl2-image-installed"
   if [ ! -f "${sdl2_image_stamp_file_path}" ]
   then
 
@@ -510,7 +510,7 @@ function do_libffi()
   local libffi_archive="${LIBFFI_SRC_FOLDER_NAME}.tar.gz"
   local libffi_url="ftp://sourceware.org/pub/libffi/${libffi_archive}"
 
-  local libffi_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-libffi-installed"
+  local libffi_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-libffi-installed"
   if [ ! -f "${libffi_stamp_file_path}" ]
   then
 
@@ -594,7 +594,7 @@ function do_libiconv()
   local libiconv_archive="${LIBICONV_SRC_FOLDER_NAME}.tar.gz"
   local libiconv_url="https://ftp.gnu.org/pub/gnu/libiconv/${libiconv_archive}"
 
-  local libiconv_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-libiconv-installed"
+  local libiconv_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-libiconv-installed"
   if [ ! -f "${libiconv_stamp_file_path}" ]
   then
 
@@ -679,7 +679,7 @@ function do_gettext()
   local gettext_archive="${GETTEXT_SRC_FOLDER_NAME}.tar.gz"
   local gettext_url="http://ftp.gnu.org/pub/gnu/gettext/${gettext_archive}"
 
-  local gettext_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-gettext-installed"
+  local gettext_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-gettext-installed"
   if [ ! -f "${gettext_stamp_file_path}" ]
   then
 
@@ -787,7 +787,7 @@ function do_glib()
   local glib_archive="${GLIB_SRC_FOLDER_NAME}.tar.xz"
   local glib_url="http://ftp.gnome.org/pub/GNOME/sources/glib/${GLIB_MVERSION}/${glib_archive}"
 
-  local glib_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-glib-installed"
+  local glib_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-glib-installed"
   if [ ! -f "${glib_stamp_file_path}" ]
   then
 
@@ -906,7 +906,7 @@ function do_pixman()
   local pixman_archive="${PIXMAN_SRC_FOLDER_NAME}.tar.gz"
   local pixman_url="http://cairographics.org/releases/${pixman_archive}"
 
-  local pixman_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-pixman-installed"
+  local pixman_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-pixman-installed"
   if [ ! -f "${pixman_stamp_file_path}" ]
   then
 
@@ -995,7 +995,7 @@ function do_libxml2()
   local libxml2_archive="${LIBXML2_SRC_FOLDER_NAME}.tar.gz"
   local libxml2_url="ftp://xmlsoft.org/libxml2/${libxml2_archive}"
 
-  local libxml2_stamp_file_path="${LIBS_INSTALL_FOLDER_PATH}/stamp-libxml2-installed"
+  local libxml2_stamp_file_path="${INSTALL_FOLDER_PATH}/stamp-libxml2-installed"
   if [ ! -f "${libxml2_stamp_file_path}" ]
   then
 
