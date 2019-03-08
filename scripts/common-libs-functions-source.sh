@@ -855,6 +855,15 @@ function do_glib()
             --disable-installed-tests \
             --disable-always-build-tests
 
+          # Disable SPLICE, it fails on CentOS.
+          local gsed_path=$(which gsed)
+          if [ ! -z "${gsed_path}" ]
+          then
+            gsed -i -e '/#define HAVE_SPLICE 1/d' config.h
+          else
+            sed -i -e '/#define HAVE_SPLICE 1/d' config.h
+          fi
+
           cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-glib-log.txt"
         ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-glib-output.txt"
 
