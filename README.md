@@ -304,17 +304,26 @@ Instead of `--all`, you can use any combination of:
 
 #### clean
 
-To remove most build files, use:
+To remove most build temporary files, use:
 
 ```console
-$ bash ~/Downloads/qemu-build.git/scripts/build.sh clean
+$ bash ~/Downloads/qemu-build.git/scripts/build.sh --all clean
 ```
 
-To also remove the repository and the output files, use:
+To also remove the library build temporary files, use:
 
 ```console
-$ bash ~/Downloads/qemu-build.git/scripts/build.sh cleanall
+$ bash ~/Downloads/qemu-build.git/scripts/build.sh --all cleanlibs
 ```
+
+To remove all temporary files, use:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build.sh --all cleanall
+```
+
+Instead of `--all`, any combination of `--win32 --win64 --linux32 --linux64`
+will remove the more specific folders.
 
 For production builds it is recommended to completely remove the build folder.
 

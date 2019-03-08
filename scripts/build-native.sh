@@ -62,6 +62,7 @@ DO_BUILD_WIN=""
 IS_DEBUG=""
 IS_DEVELOP=""
 WITH_STRIP=""
+IS_NATIVE="y"
 
 # Attempts to use 8 occasionally failed, reduce if necessary.
 if [ "$(uname)" == "Darwin" ]

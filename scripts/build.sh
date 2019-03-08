@@ -62,6 +62,7 @@ DO_BUILD_LINUX32=""
 DO_BUILD_LINUX64=""
 DO_BUILD_OSX=""
 ENV_FILE=""
+IS_NATIVE=""
 
 argc=$#
 declare -a argv
@@ -78,7 +79,7 @@ do
   arg="${argv[$i]}"
   case "${arg}" in
 
-    clean|cleanall|preload-images)
+    clean|cleanlibs|cleanall|preload-images)
       ACTION="${arg}"
       ;;
 
@@ -193,7 +194,6 @@ echo "Host helper functions source script: \"${host_functions_script_path}\"."
 source "${host_functions_script_path}"
 
 host_prepare_cache
-# prepare_xbb_env
 
 # The names of the two Docker images used for the build.
 # docker run --interactive --tty ilegeul/centos:6-xbb-v1
