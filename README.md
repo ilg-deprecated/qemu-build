@@ -25,20 +25,7 @@ git://git.qemu.org/qemu.git
 
 Add a remote named `qemu`, and pull the QEMU master → master.
 
-## How to run a local/native build
-
-### Prerequisites
-
-For the moment the build scripts were tested only on Ubuntu 18 LTS and macOS.
-Details on how to prepare the development environment are in the 
-[macOS](https://github.com/xpack/xpack-build-box/tree/master/macos)
-and [Ubuntu](https://github.com/xpack/xpack-build-box/tree/master/ubuntu)
-page of the [XBB project](https://github.com/xpack/xpack-build-box).
-
-The Windows binaries are cross compiled with mingw-w64; this works on 
-Ubuntu 18 LTS, including when running it under WSL (Windows System for Linux).
-
-### Download the build scripts repo
+## Download the build scripts repo
 
 The build script is available from GitHub and can be 
 [viewed online](https://github.com/gnu-mcu-eclipse/qemu-build/blob/master/scripts/build-native.sh).
@@ -59,9 +46,37 @@ $ git clone --recurse-submodules https://github.com/gnu-mcu-eclipse/qemu-build.g
   ~/Downloads/qemu-build.git
 ```
 
+To use the `develop` branch, use:
+
+```console
+$ rm -rf ~/Downloads/qemu-build.git
+$ git clone --recurse-submodules -b develop https://github.com/gnu-mcu-eclipse/qemu-build.git \
+  ~/Downloads/qemu-build.git
+```
+
+## The `Work` folder
+
+The script creates a temporary build `Work/qemu-${version}` folder in 
+the user home. Although not recommended, if for any reasons you need to 
+change the location of the `Work` folder, 
+you can redefine `WORK_FOLDER_PATH` variable before invoking the script.
+
+## How to run a local/native build
+
+### Prerequisites
+
+For the moment the native build scripts were tested only on Ubuntu 18 LTS and macOS.
+Details on how to prepare the development environment are in the 
+[macOS](https://github.com/xpack/xpack-build-box/tree/master/macos)
+and [Ubuntu](https://github.com/xpack/xpack-build-box/tree/master/ubuntu)
+page of the [XBB project](https://github.com/xpack/xpack-build-box).
+
+The Windows binaries are cross compiled with mingw-w64; this works on 
+Ubuntu 18 LTS, including when running it under WSL (Windows System for Linux).
+
 ### Build
 
-To build a macOS or Ubuntu binary based on the latest master sources, run the
+To build a macOS or Ubuntu binary based on the latest sources, run the
 script without any options:
 
 ```console
@@ -133,34 +148,6 @@ The prerequisites are common to all binary builds. Please follow the
 instructions in the separate 
 [Prerequisites for building binaries](https://gnu-mcu-eclipse.github.io/developer/build-binaries-prerequisites-xbb/) 
 page and return when ready.
-
-### Download the build scripts repo
-
-The build script is available from GitHub and can be 
-[viewed online](https://github.com/gnu-mcu-eclipse/qemu-build/blob/master/scripts/build.sh).
-
-To download it, clone the 
-[gnu-mcu-eclipse/qemu-build](https://github.com/gnu-mcu-eclipse/qemu-build) 
-Git repo, including submodules. 
-
-```console
-$ curl -L https://github.com/gnu-mcu-eclipse/qemu-build/raw/master/scripts/git-clone.sh | bash
-```
-
-which issues the following two commands:
-
-```console
-$ rm -rf ~/Downloads/qemu-build.git
-$ git clone --recurse-submodules https://github.com/gnu-mcu-eclipse/qemu-build.git \
-  ~/Downloads/qemu-build.git
-```
-
-### Check the script
-
-The script creates a temporary build `Work/qemu-${version}` folder in 
-the user home. Although not recommended, if for any reasons you need to 
-change this, you can redefine `WORK_FOLDER_PATH` variable before invoking 
-the script.
 
 ### Preload the Docker images
 
