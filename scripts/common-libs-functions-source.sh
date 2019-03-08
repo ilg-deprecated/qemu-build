@@ -2,7 +2,8 @@
 
 # Helper script used in the second edition of the GNU MCU Eclipse build 
 # scripts. As the name implies, it should contain only functions and 
-# should be included with 'source' by the container build scripts.
+# should be included with 'source' by the build scripts (both native
+# and container).
 
 # -----------------------------------------------------------------------------
 
@@ -107,6 +108,7 @@ function do_zlib()
 function do_libpng() 
 {
   # To ensure builds stability, use slightly older releases.
+  # https://sourceforge.net/projects/libpng/files/libpng16/
   # https://sourceforge.net/projects/libpng/files/libpng16/older-releases/
 
   # https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=libpng-git
@@ -115,6 +117,7 @@ function do_libpng()
   # LIBPNG_VERSION="1.2.53"
   # LIBPNG_VERSION="1.6.17"
   # LIBPNG_VERSION="1.6.23" # 2016-06-09
+  # LIBPNG_VERSION="1.6.36" # 2018-12-01
   # LIBPNG_SFOLDER="libpng12"
   # LIBPNG_SFOLDER="libpng16"
 
@@ -281,6 +284,7 @@ function do_sdl2()
 
   # SDL2_VERSION="2.0.3" # 2014-03-16
   # SDL2_VERSION="2.0.5" # 2016-10-20
+  # SDL2_VERSION="2.0.9" # 2018-10-31
 
   SDL2_SRC_FOLDER_NAME="SDL2-${SDL2_VERSION}"
   SDL2_FOLDER_NAME="${SDL2_SRC_FOLDER_NAME}"
@@ -383,6 +387,7 @@ function do_sdl2_image()
 
   # SDL2_IMAGE_VERSION="1.1"
   # SDL2_IMAGE_VERSION="2.0.1" # 2016-01-03
+  # SDL2_IMAGE_VERSION="2.0.4" # 2018-10-31
 
   SDL2_IMAGE_SRC_FOLDER_NAME="SDL2_image-${SDL2_IMAGE_VERSION}"
   SDL2_IMAGE_FOLDER_NAME="${SDL2_IMAGE_SRC_FOLDER_NAME}"
@@ -500,10 +505,12 @@ function do_sdl2_image()
 
 function do_libffi() 
 {
-  # ftp://sourceware.org/pub/libffi
-  # LIBFFI_VERSION="3.2.1" # 2014-11-12
+  # http://www.sourceware.org/libffi/
+  # ftp://sourceware.org/pub/libffi/
   # https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=libffi-git
   # https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=mingw-w64-libffi
+
+  # LIBFFI_VERSION="3.2.1" # 2014-11-12
 
   LIBFFI_SRC_FOLDER_NAME="libffi-${LIBFFI_VERSION}"
   LIBFFI_FOLDER_NAME="${LIBFFI_SRC_FOLDER_NAME}"
@@ -781,6 +788,10 @@ function do_glib()
   # GLIB_MVERSION="2.44"
   # GLIB_MVERSION="2.51" # 2016-10-24
   # GLIB_VERSION="${GLIB_MVERSION}.0"
+  # The last one without meson.
+  # GLIB_MVERSION="2.56" 
+  # GLIB_VERSION="${GLIB_MVERSION}.3" # 2018-12-18
+  # 2.60
 
   GLIB_SRC_FOLDER_NAME="glib-${GLIB_VERSION}"
   GLIB_FOLDER_NAME="${GLIB_SRC_FOLDER_NAME}"
@@ -900,6 +911,7 @@ function do_pixman()
 
   # PIXMAN_VERSION="0.32.6"
   # PIXMAN_VERSION="0.34.0" # 2016-01-31
+  # PIXMAN_VERSION="0.38.0" # 2019-02-11
 
   PIXMAN_SRC_FOLDER_NAME="pixman-${PIXMAN_VERSION}"
   PIXMAN_FOLDER_NAME="${PIXMAN_SRC_FOLDER_NAME}"

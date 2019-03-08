@@ -64,7 +64,7 @@ IS_DEVELOP=""
 WITH_STRIP=""
 
 # Attempts to use 8 occasionally failed, reduce if necessary.
-if [ "${HOST_UNAME}" == "Darwin" ]
+if [ "$(uname)" == "Darwin" ]
 then
   JOBS="--jobs=$(sysctl -n hw.ncpu)"
 else
@@ -164,8 +164,7 @@ SOURCES_FOLDER_PATH="${SOURCES_FOLDER_PATH:-"${HOST_WORK_FOLDER_PATH}/sources"}"
 mkdir -p "${SOURCES_FOLDER_PATH}"
 
 host_prepare_cache
-
-prepare_prerequisites
+prepare_xbb_env
 
 do_actions
 
@@ -196,36 +195,31 @@ fi
 
 QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-""}
 
-HAS_WINPTHREAD=""
-
-# libtool fails with the Ubuntu /bin/sh.
-export SHELL=/bin/bash
-export CONFIG_SHELL=/bin/bash
-
 # -----------------------------------------------------------------------------
 
 # ZLIB_VERSION="1.2.8"
 ZLIB_VERSION="1.2.11"
 
 # LIBPNG_VERSION="1.6.23"
-LIBPNG_VERSION="1.6.34"
+# LIBPNG_VERSION="1.6.34"
+LIBPNG_VERSION="1.6.36"
 LIBPNG_SFOLDER="libpng16"
 
 JPEG_VERSION="9b"
 
-#SDL2_VERSION="2.0.5"
-SDL2_VERSION="2.0.8"
+# SDL2_VERSION="2.0.5"
+# SDL2_VERSION="2.0.8"
+SDL2_VERSION="2.0.9"
 
-#SDL2_IMAGE_VERSION="2.0.1"
-SDL2_IMAGE_VERSION="2.0.3"
+# SDL2_IMAGE_VERSION="2.0.1"
+# SDL2_IMAGE_VERSION="2.0.3"
+SDL2_IMAGE_VERSION="2.0.4"
 
 LIBFFI_VERSION="3.2.1"
 
 # Fails with libtool problems.
 # LIBICONV_VERSION="1.14"
 LIBICONV_VERSION="1.15"
-
-LIBXML2_VERSION="2.9.8"
 
 GETTEXT_VERSION="0.19.8.1"
 
@@ -234,7 +228,10 @@ GETTEXT_VERSION="0.19.8.1"
 GLIB_MVERSION="2.56"
 GLIB_VERSION="${GLIB_MVERSION}.4"
 
-PIXMAN_VERSION="0.34.0"
+# PIXMAN_VERSION="0.34.0"
+PIXMAN_VERSION="0.38.0"
+
+# LIBXML2_VERSION="2.9.8"
 
 # -----------------------------------------------------------------------------
 
@@ -245,15 +242,14 @@ host_get_current_date
 
 host_start_timer
 
-native_prepare_prerequisites
+prepare_extras
+
+APP_PREFIX="${APP_INSTALL_FOLDER_PATH}"
+APP_PREFIX_DOC="${APP_PREFIX}"/doc
 
 # -----------------------------------------------------------------------------
 
 copy_build_git
-
-# -----------------------------------------------------------------------------
-
-download_qemu
 
 # -----------------------------------------------------------------------------
 # Build dependent libraries.
@@ -285,7 +281,7 @@ fi
 
 # -----------------------------------------------------------------------------
 
-do_native_qemu
+do_qemu
 
 # -----------------------------------------------------------------------------
 

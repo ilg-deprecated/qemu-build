@@ -7,7 +7,7 @@
 
 # -----------------------------------------------------------------------------
 
-function native_prepare_prerequisites()
+function prepare_extras()
 {
   # ---------------------------------------------------------------------------
 
@@ -31,14 +31,16 @@ function native_prepare_prerequisites()
     EXTRA_LDFLAGS+=" -O2"
   fi
 
-  PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-""}
-
   if [ "${TARGET_PLATFORM}" == "linux" ]
   then
-    if [ ! -z "$(which "g++-7")" ]
+    local which_gcc_7="$(xbb_activate; which "g++-7")"
+    if [ ! -z "${which_gcc_7}" ]
     then
       export CC="gcc-7"
       export CXX="g++-7"
+    else
+      export CC="gcc"
+      export CXX="g++"
     fi
     # Do not add -static here, it fails.
     # Do not try to link pthread statically, it must match the system glibc.
@@ -65,6 +67,8 @@ function native_prepare_prerequisites()
   fi
   set -u
 
+  PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-""}
+
   set +u
   echo
   echo "CC=${CC}"
@@ -86,6 +90,12 @@ function native_prepare_prerequisites()
     exit 1
   fi
   set -u
+
+  HAS_NAME_ARCH=${HAS_NAME_ARCH:-""}
+
+  # libtool fails with the Ubuntu /bin/sh.
+  export SHELL="/bin/bash"
+  export CONFIG_SHELL="/bin/bash"
 }
 
 # -----------------------------------------------------------------------------
@@ -109,13 +119,11 @@ function download_qemu()
 
       rm -rf pixman roms
 
-      local patch_file="${WORK_FOLDER_PATH}"/build.git/patches/qemu-${RELEASE_VERSION}.git-patch
+      local patch_file="${WORK_FOLDER_PATH}/build.git/patches/qemu-${RELEASE_VERSION}.git-patch"
       if [ -f "${patch_file}" ]
       then
         git apply "${patch_file}"
       fi
-
-      # cp "${WORK_FOLDER_PATH}"/build.git/scripts/VERSION .
     )
   fi
 }
@@ -152,6 +160,33 @@ function do_actions()
   then
     echo
     echo "Clean completed. Proceed with a regular build."
+
+    exit 0
+  fi
+
+  # Not used for native buils. Otherwise the names of the docker images
+  # must be set.
+  if [ "${ACTION}" == "preload-images" ]
+  then
+    host_start_timer
+
+    host_prepare_docker
+
+    echo
+    echo "Check/Preload Docker images..."
+
+    echo
+    docker run --interactive --tty "${docker_linux64_image}" \
+      lsb_release --description --short
+
+    echo
+    docker run --interactive --tty "${docker_linux32_image}" \
+      lsb_release --description --short
+
+    echo
+    docker images
+
+    host_stop_timer
 
     exit 0
   fi

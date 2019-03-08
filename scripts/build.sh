@@ -39,6 +39,21 @@ script_folder_name="$(basename "${script_folder_path}")"
 
 # -----------------------------------------------------------------------------
 
+echo
+echo "GNU MCU Eclipse QEMU distribution build script."
+
+echo
+host_functions_script_path="${script_folder_path}/helper/host-functions-source.sh"
+echo "Host helper functions source script: \"${host_functions_script_path}\"."
+source "${host_functions_script_path}"
+
+host_detect
+
+TARGET_ARCH="${HOST_NODE_ARCH}"
+TARGET_PLATFORM="${HOST_NODE_PLATFORM}"
+
+# -----------------------------------------------------------------------------
+
 ACTION=""
 
 DO_BUILD_WIN32=""
@@ -138,7 +153,7 @@ fi
 
 # -----------------------------------------------------------------------------
 
-if [ -f "${script_folder_path}"/VERSION ]
+if [ -f "${script_folder_path}/VERSION" ]
 then
   # When running from the distribution folder.
   RELEASE_VERSION=${RELEASE_VERSION:-"$(cat "${script_folder_path}"/VERSION)"}
@@ -152,31 +167,47 @@ defines_script_path="${script_folder_path}/defs-source.sh"
 echo "Definitions source script: \"${defines_script_path}\"."
 source "${defines_script_path}"
 
+# -----------------------------------------------------------------------------
+
+common_helper_functions_script_path="${script_folder_path}/helper/common-functions-source.sh"
+echo "Common helper functions source script: \"${common_helper_functions_script_path}\"."
+source "${common_helper_functions_script_path}"
+
+# May override some of the helper/common definitions.
+common_functions_script_path="${script_folder_path}/common-functions-source.sh"
+echo "Common functions source script: \"${common_functions_script_path}\"."
+source "${common_functions_script_path}"
+
+# -----------------------------------------------------------------------------
+
 # The Work folder is in HOME.
 HOST_WORK_FOLDER_PATH=${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-${RELEASE_VERSION}"}
-CONTAINER_WORK_FOLDER_PATH="/Host/Work/${APP_LC_NAME}-${RELEASE_VERSION}"
+CONTAINER_WORK_FOLDER_PATH="/Host${HOST_WORK_FOLDER_PATH}"
+mkdir -p "${HOST_WORK_FOLDER_PATH}"
+
+SOURCES_FOLDER_PATH="${SOURCES_FOLDER_PATH:-"${HOST_WORK_FOLDER_PATH}/sources"}"
+mkdir -p "${SOURCES_FOLDER_PATH}"
 
 host_functions_script_path="${script_folder_path}/helper/host-functions-source.sh"
 echo "Host helper functions source script: \"${host_functions_script_path}\"."
 source "${host_functions_script_path}"
 
-# Copy the build files to the Work area, to make them available for the 
-# container script.
-rm -rf "${HOST_WORK_FOLDER_PATH}"/build.git
-mkdir -p "${HOST_WORK_FOLDER_PATH}"/build.git
-cp -r "$(dirname ${script_folder_path})"/* "${HOST_WORK_FOLDER_PATH}"/build.git
-rm -rf "${HOST_WORK_FOLDER_PATH}"/build.git/scripts/helper/.git
-rm -rf "${HOST_WORK_FOLDER_PATH}"/build.git/scripts/helper/build-helper.sh
-
-CONTAINER_BUILD_SCRIPT_REL_PATH="build.git/scripts/${CONTAINER_SCRIPT_NAME}"
-echo "Container build script: \"${HOST_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIPT_REL_PATH}\"."
-
-# -----------------------------------------------------------------------------
+host_prepare_cache
+# prepare_xbb_env
 
 # The names of the two Docker images used for the build.
 # docker run --interactive --tty ilegeul/centos:6-xbb-v1
 docker_linux64_image="ilegeul/centos:6-xbb-v1"
 docker_linux32_image="ilegeul/centos32:6-xbb-v1"
+
+do_actions
+
+# ???
+CONTAINER_BUILD_SCRIPT_REL_PATH="build.git/scripts/${CONTAINER_SCRIPT_NAME}"
+echo "Container build script: \"${HOST_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIPT_REL_PATH}\"."
+
+# -----------------------------------------------------------------------------
+
 
 # -----------------------------------------------------------------------------
 
@@ -187,58 +218,11 @@ host_get_current_date
 
 host_start_timer
 
-host_detect
-
 host_prepare_prerequisites
 
 # -----------------------------------------------------------------------------
 
-if [ "${ACTION}" == "preload-images" ]
-then
-  host_prepare_docker
-
-  echo
-  echo "Check/Preload Docker images..."
-
-  echo
-  docker run --interactive --tty ${docker_linux64_image} \
-    lsb_release --description --short
-
-  echo
-  docker run --interactive --tty ${docker_linux64_image} \
-    lsb_release --description --short
-
-  echo
-  docker images
-
-  host_stop_timer
-
-  exit 0
-elif [ \( "${ACTION}" == "clean" \) -o \( "${ACTION}" == "cleanall" \) ]
-then
-  # Remove most build and temporary folders.
-  echo
-  if [ "${ACTION}" == "cleanall" ]
-  then
-    echo "Remove all the build folders..."
-
-    rm -rf "${HOST_WORK_FOLDER_PATH}"
-  else
-    echo "Remove most of the build folders (except output)..."
-
-    rm -rf "${HOST_WORK_FOLDER_PATH}"/build
-    rm -rf "${HOST_WORK_FOLDER_PATH}"/install
-    rm -rf "${HOST_WORK_FOLDER_PATH}"/scripts
-
-    rm -rf "${HOST_WORK_FOLDER_PATH}"/*-*
-  fi
-
-  echo
-  echo "Clean completed. Proceed with a regular build."
-
-  exit 0
-fi
-
+copy_build_git
 
 # -----------------------------------------------------------------------------
 
@@ -269,7 +253,7 @@ else
       host_build_target "Creating the OS X distribution..." \
         --script "${HOST_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIPT_REL_PATH}" \
         --env-file "${ENV_FILE}" \
-        --target-os macos \
+        --target-platform "darwin" \
         -- \
         ${rest[@]-}
     else
@@ -287,7 +271,8 @@ else
     host_build_target "Creating the GNU/Linux 64-bit distribution..." \
       --script "${CONTAINER_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIPT_REL_PATH}" \
       --env-file "${ENV_FILE}" \
-      --target-os linux \
+      --target-platform "linux" \
+      --target-arch "x64" \
       --target-bits 64 \
       --docker-image "${docker_linux64_image}" \
       -- \
@@ -301,7 +286,8 @@ else
     host_build_target "Creating the Windows 64-bit distribution..." \
       --script "${CONTAINER_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIPT_REL_PATH}" \
       --env-file "${ENV_FILE}" \
-      --target-os win \
+      --target-platform "win32" \
+      --target-arch "x64" \
       --target-bits 64 \
       --docker-image "${docker_linux64_image}" \
       -- \
@@ -315,7 +301,8 @@ else
     host_build_target "Creating the GNU/Linux 32-bit distribution..." \
       --script "${CONTAINER_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIPT_REL_PATH}" \
       --env-file "${ENV_FILE}" \
-      --target-os linux \
+      --target-platform "linux" \
+      --target-arch "x32" \
       --target-bits 32 \
       --docker-image "${docker_linux32_image}" \
       -- \
@@ -330,7 +317,8 @@ else
     host_build_target "Creating the Windows 32-bit distribution..." \
       --script "${CONTAINER_WORK_FOLDER_PATH}/${CONTAINER_BUILD_SCRIPT_REL_PATH}" \
       --env-file "${ENV_FILE}" \
-      --target-os win \
+      --target-platform "win32" \
+      --target-arch "x32" \
       --target-bits 32 \
       --docker-image "${docker_linux32_image}" \
       -- \
@@ -348,7 +336,7 @@ host_stop_timer
 host_notify_completed
 
 echo
-echo "Use --date ${DISTRIBUTION_FILE_DATE} if needed to resume a build."
+echo "Use --date ${DISTRIBUTION_FILE_DATE} if needed for a related build."
 
 # Completed successfully.
 exit 0
