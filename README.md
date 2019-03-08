@@ -5,7 +5,7 @@ These are the scripts and additional files required to build the
 
 There are two types of builds:
 
-- local/native builds, which use the tools and libraries available on the 
+- local/native builds, which use the tools available on the 
   host machine; generally the binaries do not run on a different system 
   distribution/version; intended mostly for development purposes.
 - distribution builds, which create the archives distributed as 
@@ -29,11 +29,14 @@ Add a remote named `qemu`, and pull the QEMU master → master.
 
 ### Prerequisites
 
-For the moment only Ubuntu 18LTS and macOS builds are supported. Details on 
-how to prepare the development environment are in the 
+For the moment the build scripts were tested only on Ubuntu 18 LTS and macOS.
+Details on how to prepare the development environment are in the 
 [macOS](https://github.com/xpack/xpack-build-box/tree/master/macos)
 and [Ubuntu](https://github.com/xpack/xpack-build-box/tree/master/ubuntu)
 page of the [XBB project](https://github.com/xpack/xpack-build-box).
+
+The Windows binaries are cross compiled with mingw-w64; this works on 
+Ubuntu 18 LTS, including when running it under WSL (Windows System for Linux).
 
 ### Download the build scripts repo
 
@@ -48,7 +51,7 @@ Git repo, including submodules.
 $ curl -L https://github.com/gnu-mcu-eclipse/qemu-build/raw/master/scripts/git-clone.sh | bash
 ```
 
-or the equivalent:
+which issues the following two commands:
 
 ```console
 $ rm -rf ~/Downloads/qemu-build.git
@@ -58,11 +61,17 @@ $ git clone --recurse-submodules https://github.com/gnu-mcu-eclipse/qemu-build.g
 
 ### Build
 
-To build a binary which is suitable for running on the host, run the
-script without other options:
+To build a macOS or Ubuntu binary based on the latest master sources, run the
+script without any options:
 
 ```console
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh
+```
+
+To create the Windows binaries, use:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --win
 ```
 
 The result is in `Work/qemu-dev/${platform}-${arch}/install/qemu`, 
@@ -74,14 +83,11 @@ For development builds, use:
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --develop --debug
 ```
 
-To create the Windows binaries, use:
+or, for Windows:
 
 ```console
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --develop --debug --win
 ```
-
-The Windows binaries are cross compiled with mingw-w64; this works on 
-Ubuntu 18 LTS, including when running it under WSL (Windows System for Linux).
 
 ### Clean
 
@@ -97,6 +103,20 @@ $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh cleanlibs
 
 ```console
 $ bash ~/Downloads/qemu-build.git/scripts/build-native.sh cleanall
+```
+
+Similarly for Windows:
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --win clean
+```
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --win cleanlibs
+```
+
+```console
+$ bash ~/Downloads/qemu-build.git/scripts/build-native.sh --win cleanall
 ```
 
 ### DEVELOP.md
@@ -127,7 +147,7 @@ Git repo, including submodules.
 $ curl -L https://github.com/gnu-mcu-eclipse/qemu-build/raw/master/scripts/git-clone.sh | bash
 ```
 
-or the equivalent:
+which issues the following two commands:
 
 ```console
 $ rm -rf ~/Downloads/qemu-build.git
@@ -167,7 +187,7 @@ hello-world         latest              f2a91732366c        2 months ago        
 ### Update git repos
 
 To keep the development repository in sync with the original QEMU 
-repository and the RISC-V repository:
+repository:
 
 - checkout `master`
 - pull from `qemu/master`
@@ -223,8 +243,8 @@ To build one of the previous versions:
 $ RELEASE_VERSION=2.8.0-3 bash ~/Downloads/qemu-build.git/scripts/build.sh --all
 ```
 
-Several hours later, the output of the build script is a set of 4 files 
-and their SHA signatures, created in the `deploy` folder:
+Several tens of minutes later, the output of the build script is a set of 
+4 files and their SHA signatures, created in the `deploy` folder:
 
 ```console
 $ ls -l deploy
@@ -294,11 +314,6 @@ Instead of `--all`, you can use any combination of:
 ```
 --win32 --win64 --linux32 --linux64
 ```
-
-Please note that, due to the specifics of the GCC build process, the 
-Windows build requires the corresponding GNU/Linux build, so `--win32` 
-alone is equivalent to `--linux32 --win32` and `--win64` alone is 
-equivalent to `--linux64 --win64`.
 
 #### clean
 
@@ -370,7 +385,8 @@ No other files are installed in any system folders or other locations.
 ## Uninstall
 
 The binaries are distributed as portable archives; thus they do not need 
-to run a setup and do not require an uninstall.
+to run a setup and do not require an uninstall; simply removing the
+folder is enough.
 
 ## Actual configuration
 
