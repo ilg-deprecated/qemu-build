@@ -185,7 +185,7 @@ fi
 
 # -----------------------------------------------------------------------------
 
-SOURCES_FOLDER_PATH=${SOURCES_FOLDER_PATH:-"${CONTAINER_WORK_FOLDER_PATH}/sources"}
+SOURCES_FOLDER_PATH=${SOURCES_FOLDER_PATH:-"${WORK_FOLDER_PATH}/sources"}
 mkdir -p "${SOURCES_FOLDER_PATH}"
 
 # -----------------------------------------------------------------------------
