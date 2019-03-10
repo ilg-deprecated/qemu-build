@@ -51,123 +51,17 @@ source "${host_functions_script_path}"
 
 host_detect
 
-TARGET_ARCH="${HOST_NODE_ARCH}"
-TARGET_PLATFORM="${HOST_NODE_PLATFORM}"
+# -----------------------------------------------------------------------------
+
+help_message="    bash $0 [--win] [--debug] [--develop] [--jobs N] [--help] [clean|cleanlibs|cleanall]"
+host_native_options "${help_message}" $@
 
 # -----------------------------------------------------------------------------
 
-ACTION=""
+host_common
 
-DO_BUILD_WIN=""
-IS_DEBUG=""
-IS_DEVELOP=""
-WITH_STRIP=""
-IS_NATIVE="y"
-
-# Attempts to use 8 occasionally failed, reduce if necessary.
-if [ "$(uname)" == "Darwin" ]
-then
-  JOBS="--jobs=$(sysctl -n hw.ncpu)"
-else
-  JOBS="--jobs=$(grep ^processor /proc/cpuinfo|wc -l)"
-fi
-
-while [ $# -gt 0 ]
-do
-  case "$1" in
-
-    clean|cleanlibs|cleanall)
-      ACTION="$1"
-      ;;
-
-    --win|--windows)
-      DO_BUILD_WIN="y"
-      ;;
-
-    --debug)
-      IS_DEBUG="y"
-      ;;
-
-    --develop)
-      IS_DEVELOP="y"
-      ;;
-
-    --jobs)
-      shift
-      JOBS="--jobs=$1"
-      ;;
-
-   --help)
-      echo "Build a local/native GNU MCU Eclipse ARM QEMU."
-      echo "Usage:"
-      # Some of the options are processed by the container script.
-      echo "    bash $0 [--win] [--debug] [--develop] [--jobs N] [--help] [clean|cleanlibs|cleanall]"
-      echo
-      exit 0
-      ;;
-
-    *)
-      echo "Unknown action/option $1"
-      exit 1
-      ;;
-
-  esac
-  shift
-
-done
-
-if [ "${DO_BUILD_WIN}" == "y" ]
-then
-  if [ "${HOST_NODE_PLATFORM}" == "linux" ]
-  then
-    TARGET_PLATFORM="win32"
-  else
-    echo "Windows cross builds are available only on Linux."
-    exit 1
-  fi
-fi
-
-
-# -----------------------------------------------------------------------------
-
-if [ -f "${script_folder_path}"/VERSION ]
-then
-  # When running from the distribution folder.
-  RELEASE_VERSION=${RELEASE_VERSION:-"$(cat "${script_folder_path}"/VERSION)"}
-fi
-
-echo
-echo "Processing release ${RELEASE_VERSION}..."
-
-echo
-defines_script_path="${script_folder_path}/defs-source.sh"
-echo "Definitions source script: \"${defines_script_path}\"."
-source "${defines_script_path}"
-
-# -----------------------------------------------------------------------------
-
-common_helper_functions_script_path="${script_folder_path}"/helper/common-functions-source.sh
-echo "Common helper functions source script: \"${common_helper_functions_script_path}\"."
-source "${common_helper_functions_script_path}"
-
-# May override some of the helper/common definitions.
-common_functions_script_path="${script_folder_path}"/common-functions-source.sh
-echo "Common functions source script: \"${common_functions_script_path}\"."
-source "${common_functions_script_path}"
-
-# -----------------------------------------------------------------------------
-
-# The Work folder is in HOME.
-HOST_WORK_FOLDER_PATH="${HOST_WORK_FOLDER_PATH:-"${HOME}/Work/${APP_LC_NAME}-dev"}"
-mkdir -p "${HOST_WORK_FOLDER_PATH}"
-
-SOURCES_FOLDER_PATH="${SOURCES_FOLDER_PATH:-"${HOST_WORK_FOLDER_PATH}/sources"}"
-mkdir -p "${SOURCES_FOLDER_PATH}"
-
-host_prepare_cache
 prepare_xbb_env
-
-do_actions
+prepare_extras
 
 # -----------------------------------------------------------------------------
 
@@ -233,24 +127,6 @@ GLIB_VERSION="${GLIB_MVERSION}.4"
 PIXMAN_VERSION="0.38.0"
 
 # LIBXML2_VERSION="2.9.8"
-
-# -----------------------------------------------------------------------------
-
-# Set the DISTRIBUTION_FILE_DATE.
-host_get_current_date
-
-# -----------------------------------------------------------------------------
-
-host_start_timer
-
-prepare_extras
-
-APP_PREFIX="${APP_INSTALL_FOLDER_PATH}"
-APP_PREFIX_DOC="${APP_PREFIX}"/doc
-
-# -----------------------------------------------------------------------------
-
-copy_build_git
 
 # -----------------------------------------------------------------------------
 # Build dependent libraries.
