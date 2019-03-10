@@ -46,7 +46,7 @@ $ git clone --recurse-submodules https://github.com/gnu-mcu-eclipse/qemu-build.g
   ~/Downloads/qemu-build.git
 ```
 
-To use the `develop` branch, use:
+To use the `develop` branch of the build scripts, use:
 
 ```console
 $ rm -rf ~/Downloads/qemu-build.git

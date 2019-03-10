@@ -10,7 +10,7 @@
 
 # Used to display the application name.
 APP_NAME=${APP_NAME:-"QEMU"}
-# Future name.
+# Possible future name?
 # APP_NAME=${APP_NAME:-"QEMU ARM"}
 
 # Used as part of file/folder paths.
