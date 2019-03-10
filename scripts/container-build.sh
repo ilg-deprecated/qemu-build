@@ -174,22 +174,6 @@ prepare_extras
 
 # -----------------------------------------------------------------------------
 
-APP_PREFIX="${INSTALL_FOLDER_PATH}/${APP_LC_NAME}"
-if [ "${TARGET_PLATFORM}" == "win32" ]
-then
-  APP_PREFIX_DOC="${APP_PREFIX}/doc"
-else
-  # For POSIX platforms, keep the tradition.
-  APP_PREFIX_DOC="${APP_PREFIX}/share/doc"
-fi
-
-# -----------------------------------------------------------------------------
-
-SOURCES_FOLDER_PATH=${SOURCES_FOLDER_PATH:-"${WORK_FOLDER_PATH}/sources"}
-mkdir -p "${SOURCES_FOLDER_PATH}"
-
-# -----------------------------------------------------------------------------
-
 QEMU_PROJECT_NAME="qemu"
 QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-""}
 README_OUT_FILE_NAME="README-${RELEASE_VERSION}.md"
