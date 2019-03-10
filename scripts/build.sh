@@ -51,7 +51,11 @@ host_detect
 
 # -----------------------------------------------------------------------------
 
-host_options "    bash $0 [--win32] [--win64] [--linux32] [--linux64] [--osx] [--all] [clean|cleanlibs|cleanall|preload-images] [--env-file file] [--date YYYYmmdd-HHMM] [--disable-strip] [--without-pdf] [--with-html] [--develop] [--debug] [--jobs N] [--help]" $@
+# Array where the remaining args will be stored.
+declare -a rest
+
+help_message="    bash $0 [--win32] [--win64] [--linux32] [--linux64] [--osx] [--all] [clean|cleanlibs|cleanall|preload-images] [--env-file file] [--date YYYYmmdd-HHMM] [--disable-strip] [--without-pdf] [--with-html] [--develop] [--debug] [--jobs N] [--help]"
+host_options "${help_message}" $@
 
 host_common
 
