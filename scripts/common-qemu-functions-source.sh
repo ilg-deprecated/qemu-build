@@ -245,7 +245,7 @@ function do_qemu()
       if [ "${IS_DEVELOP}" != "y" ]
       then
         strip_binaries
-        check_binaries
+        check_application "qemu-system-gnuarmeclipse"
       fi
 
     ) 2>&1 | tee "${INSTALL_FOLDER_PATH}/make-qemu-output.txt"
