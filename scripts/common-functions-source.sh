@@ -91,7 +91,7 @@ function prepare_extras()
   fi
   set -u
 
-  # -----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 
   APP_PREFIX="${INSTALL_FOLDER_PATH}/${APP_LC_NAME}"
   if [ "${TARGET_PLATFORM}" == "win32" ]
@@ -102,12 +102,12 @@ function prepare_extras()
     APP_PREFIX_DOC="${APP_PREFIX}/share/doc"
   fi
 
-  # -----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 
   SOURCES_FOLDER_PATH=${SOURCES_FOLDER_PATH:-"${WORK_FOLDER_PATH}/sources"}
   mkdir -p "${SOURCES_FOLDER_PATH}"
 
-  # -----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 
   HAS_NAME_ARCH=${HAS_NAME_ARCH:-""}
 
@@ -137,7 +137,7 @@ function download_qemu()
 
       rm -rf pixman roms
 
-      local patch_file="${WORK_FOLDER_PATH}/build.git/patches/qemu-${RELEASE_VERSION}.git-patch"
+      local patch_file="${BUILD_GIT_PATH}/patches/${QEMU_GIT_PATCH}"
       if [ -f "${patch_file}" ]
       then
         git apply "${patch_file}"

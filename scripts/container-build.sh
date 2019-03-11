@@ -175,7 +175,10 @@ prepare_extras
 # -----------------------------------------------------------------------------
 
 QEMU_PROJECT_NAME="qemu"
+
 QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-""}
+QEMU_GIT_PATCH=""
+
 README_OUT_FILE_NAME="README-${RELEASE_VERSION}.md"
 
 # Keep them in sync with combo archive content.
@@ -189,7 +192,7 @@ then
   then
     QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse"}
     QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"b01e4c3bd5dc1715c684e600c1a3d634a0672b2c"}
-
+    
     ZLIB_VERSION="1.2.8"
 
     LIBPNG_VERSION="1.6.23"
@@ -218,6 +221,7 @@ then
   then
     QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse"}
     QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"ee07085299a4ec1edc92453eef9b3c3bd0c4ab92"}
+    QEMU_GIT_PATCH="qemu-2.8.0.git-patch"
 
     ZLIB_VERSION="1.2.8"
 
@@ -247,6 +251,7 @@ then
   then
     QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse-dev"}
     # QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"ee07085299a4ec1edc92453eef9b3c3bd0c4ab92"}
+    QEMU_GIT_PATCH="qemu-2.8.0.git-patch"
 
     ZLIB_VERSION="1.2.11"
 

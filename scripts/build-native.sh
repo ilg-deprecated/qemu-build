@@ -90,6 +90,8 @@ fi
 
 QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-""}
 
+QEMU_GIT_PATCH=${QEMU_GIT_PATCH:-"qemu-2.8.0.git-patch"}
+
 # -----------------------------------------------------------------------------
 
 # ZLIB_VERSION="1.2.8"
