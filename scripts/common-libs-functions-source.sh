@@ -354,6 +354,9 @@ function do_sdl2()
             --disable-static \
             \
             --enable-video \
+            --disable-audio \
+            --disable-joystick \
+            --disable-haptic \
             ${OPENGL} \
             ${X11} \
 
