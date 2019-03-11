@@ -273,58 +273,6 @@ function strip_binaries()
   fi
 }
 
-function check_binaries()
-{
-  if [ "${TARGET_PLATFORM}" == "win32" ]
-  then
-
-    echo
-    echo "Checking binaries for unwanted DLLs..."
-
-    check_binary "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
-
-    local libs=$(find "${APP_PREFIX}"/bin -name \*.dll -type f)
-    for lib in ${libs} 
-    do
-      check_library ${lib}
-    done
-
-  elif [ "${TARGET_PLATFORM}" == "darwin" ]
-  then
-
-    echo
-    echo "Checking binaries for unwanted dynamic libraries..."
-
-    check_binary "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
-
-    local libs=$(find "${APP_PREFIX}"/bin -name \*.dylib -type f)
-    for lib in ${libs} 
-    do
-      check_library ${lib}
-    done
-
-  elif [ "${TARGET_PLATFORM}" == "linux" ]
-  then
-
-    echo
-    echo "Checking binaries for unwanted shared libraries..."
-
-    check_binary "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
-
-    local libs=$(find "${APP_PREFIX}"/bin -name \*.so.\* -type f)
-    for lib in ${libs} 
-    do
-      check_library ${lib}
-    done
-
-  else
-
-    echo "Unsupported TARGET_PLATFORM ${TARGET_PLATFORM}"
-    exit 1
-
-  fi
-}
-
 function copy_gme_files()
 {
   rm -rf "${APP_PREFIX}/${DISTRO_LC_NAME}"
