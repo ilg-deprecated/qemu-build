@@ -115,18 +115,10 @@ function do_qemu()
           echo "Preparing libraries..."
           patch_linux_elf_origin "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse 
 
-          copy_linux_user_so libSDL2-2.0
-          copy_linux_user_so libSDL2_image-2.0
-          copy_linux_user_so libgthread-2.0
-          copy_linux_user_so libglib-2.0
-          copy_linux_user_so libpixman-1
-          copy_linux_user_so libz
-          copy_linux_user_so libiconv
-          copy_linux_user_so libpng16
-          copy_linux_user_so libjpeg
+          copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
 
-          copy_linux_system_so libstdc++
-          copy_linux_system_so libgcc_s
+          # If needed, it must get its libraries.
+          rm -rf "${APP_PREFIX}/libexec/qemu-bridge-helper"
         fi
 
         echo
@@ -195,34 +187,7 @@ function do_qemu()
 
         rm -f "${APP_PREFIX}/bin/qemu-system-gnuarmeclipsew.exe"
 
-        # Windows needs all DLLs in this folder, even for development builds.
-        echo
-        echo "Copying all compiled DLLs"
-        cp -v "${LIBS_INSTALL_FOLDER_PATH}/bin/"*.dll "${APP_PREFIX}/bin"
-
-        # Copy libssp-0.dll (Stack smashing protection).
-        copy_win_gcc_dll libssp-0.dll
-
-        if [ "${TARGET_ARCH}" == "x32" ]
-        then
-          copy_win_gcc_dll "libgcc_s_sjlj-1.dll"
-        elif [ "${TARGET_ARCH}" == "x64" ]
-        then
-          copy_win_gcc_dll "libgcc_s_seh-1.dll"
-        fi
-
-        local dlls=$(find ${APP_PREFIX} -name \*.dll)
-        for dll in ${dlls}
-        do
-          echo "$(basename "${dll}")"
-          ${CROSS_COMPILE_PREFIX}-objdump -x "${dll}" | grep -i 'DLL Name'
-        done
-
-        local binaries=$(find ${APP_PREFIX} -name \*.exe)
-        for bin in ${binaries}
-        do
-          check_binary "${bin}"
-        done
+        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
 
         local wsl_path=$(which wsl.exe)
         if [ ! -z "${wsl_path}" ]
