@@ -130,7 +130,7 @@ function do_qemu()
       if [ "${TARGET_PLATFORM}" == "linux" ]
       then
         echo
-        echo "Initial shared libraries:"
+        echo "Shared libraries:"
         echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
         readelf -d "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" | grep 'Shared library:'
 
@@ -146,11 +146,6 @@ function do_qemu()
 
         # If needed, it must get its libraries.
         rm -rf "${APP_PREFIX}/libexec/qemu-bridge-helper"
-
-        echo
-        echo "Final shared libraries:"
-        echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
-        readelf -d "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" | grep 'Shared library:'
       elif [ "${TARGET_PLATFORM}" == "darwin" ]
       then
         echo
@@ -170,7 +165,7 @@ function do_qemu()
       elif [ "${TARGET_PLATFORM}" == "win32" ]
       then
         echo
-        echo "Initial dynamic libraries:"
+        echo "Dynamic libraries:"
         echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
         ${CROSS_COMPILE_PREFIX}-objdump -x "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" | grep -i 'DLL Name'
 
@@ -182,11 +177,6 @@ function do_qemu()
         echo
         echo "Preparing libraries..."
         copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
-
-        echo
-        echo "Updated dynamic libraries:"
-        echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
-        ${CROSS_COMPILE_PREFIX}-objdump -x "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" | grep -i 'DLL Name'
       fi
 
       if [ "${IS_DEVELOP}" != "y" ]
