@@ -130,30 +130,32 @@ function do_qemu()
       if [ "${TARGET_PLATFORM}" == "linux" ]
       then
         echo
-        echo "Shared libraries:"
+        echo "Initial shared libraries:"
+        echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
         readelf -d "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" | grep 'Shared library:'
 
         # For just in case, normally must be done by the make file.
         strip "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"  || true
 
-        if [ "${IS_DEVELOP}" != "y" ]
-        then
-          echo
-          echo "Preparing libraries..."
-          patch_linux_elf_origin "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse 
+        echo
+        echo "Preparing libraries..."
+        patch_linux_elf_origin "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse 
 
-          copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
+        echo
+        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
 
-          # If needed, it must get its libraries.
-          rm -rf "${APP_PREFIX}/libexec/qemu-bridge-helper"
-        fi
+        # If needed, it must get its libraries.
+        rm -rf "${APP_PREFIX}/libexec/qemu-bridge-helper"
 
         echo
         "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
+        echo "Final shared libraries:"
+        echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
+        readelf -d "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" | grep 'Shared library:'
       elif [ "${TARGET_PLATFORM}" == "darwin" ]
       then
         echo
-        echo "Dynamic libraries:"
+        echo "Initial dynamic libraries:"
         otool -L "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
 
         # For just in case, normally must be done by the make file.
@@ -165,12 +167,13 @@ function do_qemu()
 
         echo
         "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
+        echo "Updated dynamic libraries:"
+        otool -L "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
       elif [ "${TARGET_PLATFORM}" == "win32" ]
       then
         echo
-        echo "Dynamic libraries:"
+        echo "Initial dynamic libraries:"
         echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
-        echo qemu-system-gnuarmeclipse.exe
         ${CROSS_COMPILE_PREFIX}-objdump -x "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" | grep -i 'DLL Name'
 
         # For just in case, normally must be done by the make file.
@@ -178,6 +181,8 @@ function do_qemu()
 
         rm -f "${APP_PREFIX}/bin/qemu-system-gnuarmeclipsew.exe"
 
+        echo
+        echo "Preparing libraries..."
         copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
 
         local wsl_path=$(which wsl.exe)
@@ -196,6 +201,10 @@ function do_qemu()
             echo "Install wine if you want to run the .exe binaries on Linux."
           fi
         fi
+        echo
+        echo "Updated dynamic libraries:"
+        echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
+        ${CROSS_COMPILE_PREFIX}-objdump -x "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" | grep -i 'DLL Name'
       fi
 
       if [ "${IS_DEVELOP}" != "y" ]
