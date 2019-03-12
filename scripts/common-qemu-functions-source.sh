@@ -159,45 +159,9 @@ function do_qemu()
         # For just in case, normally must be done by the make file.
         strip "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" || true
 
-        if [ "${IS_DEVELOP}" != "y" ]
-        then
-          echo
-          echo "Preparing libraries..."
-          change_dylib "libz.1.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          change_dylib "libpixman-1.0.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          change_dylib "libSDL2-2.0.0.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          change_dylib "libSDL2_image-2.0.0.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          change_dylib "libgthread-2.0.0.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          change_dylib "libglib-2.0.0.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          change_dylib "libintl.8.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          # change_dylib "libiconv.2.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          change_dylib "libstdc++.6.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-          change_dylib "libgcc_s.1.dylib" "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse
-
-          otool -L "${APP_PREFIX}"/bin/*.dylib
-
-          change_dylib "libgcc_s.1.dylib" "${APP_PREFIX}"/bin/libstdc++.6.dylib
-
-          change_dylib "libSDL2-2.0.0.dylib" "${APP_PREFIX}"/bin/libSDL2_image-2.0.0.dylib
-          # change_dylib "libgcc_s.1.dylib" "${APP_PREFIX}"/bin/libSDL2_image-2.0.0.dylib
-
-          change_dylib "libglib-2.0.0.dylib" "${APP_PREFIX}"/bin/libgthread-2.0.0.dylib
-
-          change_dylib "libgcc_s.1.dylib" "${APP_PREFIX}"/bin/libpixman-1.0.dylib
-
-          change_dylib "libiconv.2.dylib" "${APP_PREFIX}"/bin/libglib-2.0.0.dylib
-          change_dylib "libintl.8.dylib" "${APP_PREFIX}"/bin/libglib-2.0.0.dylib
-
-          change_dylib "libgcc_s.1.dylib" "${APP_PREFIX}"/bin/libiconv.2.dylib
-
-          change_dylib "libiconv.2.dylib" "${APP_PREFIX}"/bin/libintl.8.dylib
-          change_dylib "libgcc_s.1.dylib" "${APP_PREFIX}"/bin/libintl.8.dylib
-
-          change_dylib "libiconv.2.dylib" "${APP_PREFIX}"/bin/libgthread-2.0.0.dylib
-          change_dylib "libintl.8.dylib" "${APP_PREFIX}"/bin/libgthread-2.0.0.dylib
-
-          change_dylib "libgcc_s.1.dylib" "${APP_PREFIX}"/bin/libz.1.dylib
-        fi
+        echo
+        echo "Preparing libraries..."
+        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
 
         echo
         "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
