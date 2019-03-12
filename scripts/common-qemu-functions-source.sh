@@ -148,7 +148,6 @@ function do_qemu()
         rm -rf "${APP_PREFIX}/libexec/qemu-bridge-helper"
 
         echo
-        "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
         echo "Final shared libraries:"
         echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
         readelf -d "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" | grep 'Shared library:'
@@ -166,7 +165,6 @@ function do_qemu()
         copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
 
         echo
-        "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
         echo "Updated dynamic libraries:"
         otool -L "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
       elif [ "${TARGET_PLATFORM}" == "win32" ]
@@ -185,22 +183,6 @@ function do_qemu()
         echo "Preparing libraries..."
         copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
 
-        local wsl_path=$(which wsl.exe)
-        if [ ! -z "${wsl_path}" ]
-        then
-          echo
-          "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
-        else 
-          local wine_path=$(which wine)
-          if [ ! -z "${wine_path}" ]
-          then
-            echo
-            wine "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
-          else
-            echo
-            echo "Install wine if you want to run the .exe binaries on Linux."
-          fi
-        fi
         echo
         echo "Updated dynamic libraries:"
         echo "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
@@ -215,6 +197,34 @@ function do_qemu()
 
     ) 2>&1 | tee "${INSTALL_FOLDER_PATH}/make-qemu-output.txt"
   )
+}
+
+function run_qemu()
+{
+  echo
+
+  if [ "${TARGET_PLATFORM}" == "linux" ]
+  then
+    "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
+  elif [ "${TARGET_PLATFORM}" == "darwin" ]
+  then
+    "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
+  elif [ "${TARGET_PLATFORM}" == "win32" ]
+  then
+    local wsl_path=$(which wsl.exe)
+    if [ ! -z "${wsl_path}" ]
+    then
+      "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
+    else 
+      local wine_path=$(which wine)
+      if [ ! -z "${wine_path}" ]
+      then
+        wine "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
+      else
+        echo "Install wine if you want to run the .exe binaries on Linux."
+      fi
+    fi
+  fi
 }
 
 function strip_binaries()
