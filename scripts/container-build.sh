@@ -71,6 +71,11 @@ source "${common_app_functions_script_path}"
 
 # -----------------------------------------------------------------------------
 
+if [ ! -z "#{DEBUG}" ]
+then
+  echo $@
+fi
+
 WITH_STRIP="y"
 WITH_PDF="y"
 WITH_HTML="n"
@@ -149,22 +154,6 @@ fi
 start_timer
 
 detect_container
-
-# Fix the texinfo path in XBB v1.
-if [ -f "/.dockerenv" -a -f "/opt/xbb/xbb.sh" ]
-then
-  if [ "${TARGET_ARCH}" == "x64" ]
-  then
-    sed -e "s|texlive/bin/\$\(uname -p\)-linux|texlive/bin/x86_64-linux|" /opt/xbb/xbb.sh > /opt/xbb/xbb-source.sh
-  elif [ "${TARGET_ARCH}" == "x32" ]
-  then
-    sed -e "s|texlive/bin/[$][(]uname -p[)]-linux|texlive/bin/i386-linux|" /opt/xbb/xbb.sh > /opt/xbb/xbb-source.sh
-  fi
-
-  echo 'cat /opt/xbb/xbb-source.sh'
-  cat /opt/xbb/xbb-source.sh
-  echo '--------------------------'
-fi
 
 prepare_xbb_env
 
@@ -298,14 +287,6 @@ QEMU_GIT_URL=${QEMU_GIT_URL:-"https://github.com/gnu-mcu-eclipse/qemu.git"}
 QEMU_FOLDER_NAME="qemu-${QEMU_VERSION}"
 
 # -----------------------------------------------------------------------------
-
-# TODO: move them to XBB.
-if [ "${TARGET_PLATFORM}" == "linux" ]
-then
-  # yum provides '*/X11/extensions/Xext.h'
-  # yum provides '*/GL/gl.h'
-  yum install -y libX11-devel libXext-devel mesa-libGL-devel
-fi
 
 echo
 echo "Here we go..."

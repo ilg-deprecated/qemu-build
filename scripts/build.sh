@@ -59,6 +59,9 @@ host_options "${help_message}" $@
 
 host_common
 
+docker_linux64_image="ilegeul/centos:6-xbb-v2"
+docker_linux32_image="ilegeul/centos32:6-xbb-v2"
+
 # -----------------------------------------------------------------------------
 
 if [ -n "${DO_BUILD_WIN32}${DO_BUILD_WIN64}${DO_BUILD_LINUX32}${DO_BUILD_LINUX64}" ]
