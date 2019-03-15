@@ -35,6 +35,8 @@ function download_qemu()
   fi
 }
 
+# -----------------------------------------------------------------------------
+
 function do_qemu() 
 {
   download_qemu
@@ -206,13 +208,17 @@ function run_qemu()
     then
       "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
     else 
-      local wine_path=$(which wine)
-      if [ ! -z "${wine_path}" ]
-      then
-        wine "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
-      else
-        echo "Install wine if you want to run the .exe binaries on Linux."
-      fi
+      (
+        xbb_activate
+        
+        local wine_path=$(which wine)
+        if [ ! -z "${wine_path}" ]
+        then
+          wine "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" --version
+        else
+          echo "Install wine if you want to run the .exe binaries on Linux."
+        fi
+      )
     fi
   fi
 }
