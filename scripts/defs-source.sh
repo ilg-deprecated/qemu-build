@@ -32,6 +32,4 @@ CONTAINER_APP_FUNCTIONS_SCRIPT_NAME=${CONTAINER_APP_FUNCTIONS_SCRIPT_NAME:-"cont
 COMMON_LIBS_FUNCTIONS_SCRIPT_NAME=${COMMON_LIBS_FUNCTIONS_SCRIPT_NAME:-"common-libs-functions-source.sh"}
 COMMON_APP_FUNCTIONS_SCRIPT_NAME=${COMMON_APP_FUNCTIONS_SCRIPT_NAME:-"common-qemu-functions-source.sh"}
 
-CONTAINER_RUN_AS_ROOT=""
-
 # -----------------------------------------------------------------------------
