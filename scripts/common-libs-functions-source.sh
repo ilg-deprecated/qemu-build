@@ -65,8 +65,8 @@ function do_zlib()
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             -static
 
-          cp "configure.log" "${LIBS_INSTALL_FOLDER_PATH}/configure-zlib-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-zlib-output.txt"
+          cp "configure.log" "${LOGS_FOLDER_PATH}/configure-zlib-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-zlib-output.txt"
 
       fi
 
@@ -95,7 +95,7 @@ function do_zlib()
           install -d -m 0755 "${LIBS_INSTALL_FOLDER_PATH}/bin"
           install -m755 -t "${LIBS_INSTALL_FOLDER_PATH}/bin" zlib1.dll
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-zlib-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-zlib-output.txt"
     )
 
     touch "${zlib_stamp_file_path}"
@@ -167,8 +167,8 @@ function do_libpng()
             --enable-shared \
             --disable-static
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-libpng-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-libpng-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-libpng-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-libpng-output.txt"
 
       fi
 
@@ -184,7 +184,7 @@ function do_libpng()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-libpng-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-libpng-output.txt"
     )
 
     touch "${libpng_stamp_file_path}"
@@ -248,8 +248,8 @@ function do_jpeg()
             --enable-shared \
             --disable-static
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-jpeg-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-jpeg-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-jpeg-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-jpeg-output.txt"
 
       fi
 
@@ -265,7 +265,7 @@ function do_jpeg()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-jpeg-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-jpeg-output.txt"
     )
 
     touch "${jpeg_stamp_file_path}"
@@ -360,8 +360,8 @@ function do_sdl2()
             ${OPENGL} \
             ${X11} \
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-sdl2-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-sdl2-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-sdl2-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-sdl2-output.txt"
 
       fi
 
@@ -372,7 +372,7 @@ function do_sdl2()
         # Build.
         make ${JOBS}
         make install
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-sdl2-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-sdl2-output.txt"
     )
 
     touch "${sdl2_stamp_file_path}"
@@ -479,8 +479,8 @@ function do_sdl2_image()
             --disable-webp \
             --disable-webp-shared
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-sdl2-image-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-sdl2-image-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-sdl2-image-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-sdl2-image-output.txt"
 
       fi
 
@@ -496,7 +496,7 @@ function do_sdl2_image()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-sdl2-image-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-sdl2-image-output.txt"
     )
 
     touch "${sdl2_image_stamp_file_path}"
@@ -561,8 +561,8 @@ function do_libffi()
             --disable-static \
             --enable-pax_emutramp
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-libffi-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-libffi-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-libffi-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-libffi-output.txt"
 
       fi
 
@@ -578,7 +578,7 @@ function do_libffi()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-libffi-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-libffi-output.txt"
     )
 
     touch "${libffi_stamp_file_path}"
@@ -647,8 +647,8 @@ function do_libiconv()
             --disable-static \
             --disable-nls
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-libiconv-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-libiconv-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-libiconv-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-libiconv-output.txt"
 
       fi
 
@@ -664,7 +664,7 @@ function do_libiconv()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-libiconv-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-libiconv-output.txt"
     )
 
     touch "${libiconv_stamp_file_path}"
@@ -755,8 +755,8 @@ function do_gettext()
             --disable-c++ \
             --disable-libasprintf
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-gettext-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-gettext-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-gettext-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-gettext-output.txt"
 
       fi
 
@@ -772,7 +772,7 @@ function do_gettext()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-gettext-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-gettext-output.txt"
     )
 
     touch "${gettext_stamp_file_path}"
@@ -878,8 +878,8 @@ function do_glib()
             sed -i -e '/#define HAVE_SPLICE 1/d' config.h
           fi
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-glib-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-glib-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-glib-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-glib-output.txt"
 
       fi
 
@@ -895,7 +895,7 @@ function do_glib()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-glib-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-glib-output.txt"
     )
 
     touch "${glib_stamp_file_path}"
@@ -967,8 +967,8 @@ function do_pixman()
             --with-gnu-ld \
             --disable-static-testprogs
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-pixman-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-pixman-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-pixman-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-pixman-output.txt"
 
       fi
 
@@ -984,7 +984,7 @@ function do_pixman()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-pixman-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-pixman-output.txt"
     )
 
     touch "${pixman_stamp_file_path}"
@@ -1066,8 +1066,8 @@ function do_libxml2()
             --disable-static \
             --without-python
 
-          cp "config.log" "${LIBS_INSTALL_FOLDER_PATH}/config-libxml2-log.txt"
-        ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/configure-libxml2-output.txt"
+          cp "config.log" "${LOGS_FOLDER_PATH}/config-libxml2-log.txt"
+        ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-libxml2-output.txt"
 
       fi
 
@@ -1083,7 +1083,7 @@ function do_libxml2()
         else
           make install
         fi
-      ) 2>&1 | tee "${LIBS_INSTALL_FOLDER_PATH}/make-libxml2-output.txt"
+      ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-libxml2-output.txt"
     )
 
     touch "${libxml2_stamp_file_path}"

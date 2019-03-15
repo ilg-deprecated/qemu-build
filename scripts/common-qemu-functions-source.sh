@@ -118,8 +118,8 @@ function do_qemu()
           --python=python2 \
 
       fi
-      cp "config.log" "${INSTALL_FOLDER_PATH}/configure-qemu-log.txt"
-    ) 2>&1 | tee "${INSTALL_FOLDER_PATH}/configure-qemu-output.txt"
+      cp "config.log" "${LOGS_FOLDER_PATH}/configure-qemu-log.txt"
+    ) 2>&1 | tee "${LOGS_FOLDER_PATH}/configure-qemu-output.txt"
 
     (
       echo
@@ -187,7 +187,7 @@ function do_qemu()
         check_application "qemu-system-gnuarmeclipse"
       fi
 
-    ) 2>&1 | tee "${INSTALL_FOLDER_PATH}/make-qemu-output.txt"
+    ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-qemu-output.txt"
   )
 }
 
