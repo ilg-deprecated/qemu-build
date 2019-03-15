@@ -187,6 +187,18 @@ function do_qemu()
         check_application "qemu-system-gnuarmeclipse"
       fi
 
+      if [ "${WITH_PDF}" == "y" ]
+      then
+        make ${JOBS} pdf
+        make install-pdf
+      fi
+
+      if [ "${WITH_HTML}" == "y" ]
+      then
+        make ${JOBS} html
+        make install-html
+      fi
+
     ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-qemu-output.txt"
   )
 }
