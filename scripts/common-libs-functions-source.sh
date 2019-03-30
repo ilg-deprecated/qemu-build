@@ -52,7 +52,7 @@ function do_zlib()
       then
 
         export CFLAGS="${EXTRA_CFLAGS} -Wno-shift-negative-value"
-        # export LDFLAGS="${EXTRA_LDFLAGS}"
+        # export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
 
         (
           echo
@@ -145,7 +145,7 @@ function do_libpng()
 
       export CFLAGS="${EXTRA_CFLAGS} -Wno-expansion-to-defined"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
       
       if [ ! -f "config.status" ]
       then 
@@ -226,7 +226,7 @@ function do_jpeg()
 
       export CFLAGS="${EXTRA_CFLAGS}"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
       
       if [ ! -f "config.status" ]
       then 
@@ -309,7 +309,7 @@ function do_sdl2()
 
       export CFLAGS="${EXTRA_CFLAGS} -Wno-deprecated-declarations -Wno-unused-variable -Wno-format"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
     
       if [ "${TARGET_PLATFORM}" == "darwin" ]
       then
@@ -423,7 +423,7 @@ function do_sdl2_image()
 
       export CFLAGS="${EXTRA_CFLAGS} -Wno-macro-redefined"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
       # export LIBS="-lpng16 -ljpeg"
 
       if [ ! -f "config.status" ]
@@ -538,7 +538,7 @@ function do_libffi()
 
       export CFLAGS="${EXTRA_CFLAGS} -Wno-incompatible-pointer-types"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
       
       if [ ! -f "config.status" ]
       then 
@@ -625,7 +625,7 @@ function do_libiconv()
       #  -Wno-parentheses-equality -Wno-static-in-inline fail on Ubuntu
       export CFLAGS="${EXTRA_CFLAGS} -fgnu89-inline -Wno-tautological-compare -Wno-pointer-to-int-cast -Wno-attributes"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
 
       if [ ! -f "config.status" ]
       then 
@@ -712,7 +712,7 @@ function do_gettext()
       fi
       
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
       
       if [ ! -f "config.status" ]
       then 
@@ -820,7 +820,7 @@ function do_glib()
 
       export CFLAGS="${EXTRA_CFLAGS} -Wno-implicit-function-declaration -Wno-deprecated-declarations -Wno-incompatible-pointer-types -Wno-int-conversion -Wno-pointer-to-int-cast"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
 
       if [ "${TARGET_PLATFORM}" == "darwin" ]
       then
@@ -942,7 +942,7 @@ function do_pixman()
 
       export CFLAGS="${EXTRA_CFLAGS} -Wno-unused-const-variable -Wno-unused-but-set-variable -Wno-maybe-uninitialized"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
       
       if [ ! -f "config.status" ]
       then 
@@ -1044,7 +1044,7 @@ function do_libxml2()
 
       export CFLAGS="${EXTRA_CFLAGS}"
       export CPPFLAGS="${EXTRA_CPPFLAGS}"
-      export LDFLAGS="${EXTRA_LDFLAGS}"
+      export LDFLAGS="${EXTRA_LDFLAGS_LIB}"
       
       if [ ! -f "config.status" ]
       then 
