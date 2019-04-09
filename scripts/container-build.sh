@@ -90,13 +90,7 @@ WITH_HTML="n"
 IS_DEVELOP=""
 IS_DEBUG=""
 
-# Attempts to use 8 occasionally failed, reduce if necessary.
-if [ "$(uname)" == "Darwin" ]
-then
-  JOBS="--jobs=$(sysctl -n hw.ncpu)"
-else
-  JOBS="--jobs=$(grep ^processor /proc/cpuinfo|wc -l)"
-fi
+JOBS=""
 
 while [ $# -gt 0 ]
 do
@@ -129,7 +123,7 @@ do
       ;;
 
     --jobs)
-      JOBS="--jobs=$2"
+      JOBS=$2
       shift 2
       ;;
 
@@ -165,7 +159,7 @@ detect_container
 
 prepare_xbb_env
 
-prepare_extras
+prepare_xbb_extras
 
 # -----------------------------------------------------------------------------
 
@@ -303,6 +297,9 @@ echo
 
 # -----------------------------------------------------------------------------
 # Build dependent libraries.
+
+# Warning: on Darwin, some libraries do not build with GNU GCC-7.4, and
+# must revert to Apple clang. (glib & sdl2)
 
 do_zlib
 

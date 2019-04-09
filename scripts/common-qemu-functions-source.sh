@@ -53,17 +53,17 @@ function do_qemu()
     cd "${APP_BUILD_FOLDER_PATH}"
 
     xbb_activate
-    xbb_activate_this
+    xbb_activate_installed_dev
 
-    export CFLAGS="${EXTRA_CFLAGS} -Wno-format-truncation -Wno-incompatible-pointer-types -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
+    export CFLAGS="${XBB_CFLAGS} -Wno-format-truncation -Wno-incompatible-pointer-types -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
 
-    export CPPFLAGS="${EXTRA_CPPFLAGS}"
+    export CPPFLAGS="${XBB_CPPFLAGS}"
     if [ "${IS_DEBUG}" == "y" ]
     then 
       export CPPFLAGS+=" -DDEBUG"
     fi
 
-    export LDFLAGS="${EXTRA_LDFLAGS_APP}"
+    export LDFLAGS="${XBB_LDFLAGS_APP}"
 
     if [ "${TARGET_PLATFORM}" == "win32" ]
     then
@@ -132,7 +132,9 @@ function do_qemu()
       echo
       echo "Running qemu make..."
 
-      make ${JOBS}
+      # Parallel builds fail.
+      # make -j ${JOBS}
+      make
       make install
       make install-gme
 
@@ -151,7 +153,7 @@ function do_qemu()
         patch_linux_elf_origin "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse 
 
         echo
-        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
+        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" "${APP_PREFIX}/bin"
 
         # If needed, it must get its libraries.
         rm -rf "${APP_PREFIX}/libexec/qemu-bridge-helper"
@@ -166,7 +168,7 @@ function do_qemu()
 
         echo
         echo "Preparing libraries..."
-        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
+        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" "${APP_PREFIX}/bin"
 
         echo
         echo "Updated dynamic libraries:"
@@ -185,7 +187,7 @@ function do_qemu()
 
         echo
         echo "Preparing libraries..."
-        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe"
+        copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" "${APP_PREFIX}/bin"
       fi
 
       if [ "${IS_DEVELOP}" != "y" ]
@@ -194,17 +196,21 @@ function do_qemu()
         check_application "qemu-system-gnuarmeclipse"
       fi
 
-      if [ "${WITH_PDF}" == "y" ]
-      then
-        make ${JOBS} pdf
-        make install-pdf
-      fi
+      (
+        xbb_activate_tex
 
-      if [ "${WITH_HTML}" == "y" ]
-      then
-        make ${JOBS} html
-        make install-html
-      fi
+        if [ "${WITH_PDF}" == "y" ]
+        then
+          make pdf
+          make install-pdf
+        fi
+
+        if [ "${WITH_HTML}" == "y" ]
+        then
+          make html
+          make install-html
+        fi
+      )
 
     ) 2>&1 | tee "${LOGS_FOLDER_PATH}/make-qemu-output.txt"
   )
@@ -321,7 +327,7 @@ function copy_gme_files()
   echo "Copying GME files..."
 
   cd "${BUILD_GIT_PATH}"
-  /usr/bin/install -v -c -m 644 "${README_OUT_FILE_NAME}" \
+  install -v -c -m 644 "${README_OUT_FILE_NAME}" \
     "${APP_PREFIX}/README.md"
 }
 

@@ -69,7 +69,7 @@ host_native_options "${help_message}" $@
 host_common
 
 prepare_xbb_env
-prepare_extras
+prepare_xbb_xtras
 
 # -----------------------------------------------------------------------------
 
