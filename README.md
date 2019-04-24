@@ -221,7 +221,7 @@ to build selectively, use `--linux64 --win64` or `--linux32 --win32`
 (GNU/Linux can be built alone; Windows also requires the GNU/Linux build).
 
 ```console
-$ rm -rf "${HOME}/Work/qemu-*"
+$ rm -rf "${HOME}/Work"/qemu-*
 $ bash ~/Downloads/qemu-build.git/scripts/build.sh --all
 ```
 
@@ -264,7 +264,7 @@ To build the latest macOS version, with the same timestamp as the
 previous build:
 
 ```console
-$ rm -rf "${HOME}/Work/qemu-*"
+$ rm -rf "${HOME}/Work"/qemu-*
 $ caffeinate bash ~/Downloads/qemu-build.git/scripts/build.sh --osx --date YYYYMMDD-HHMM
 ```
 
