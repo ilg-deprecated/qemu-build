@@ -73,9 +73,9 @@ common_libs_functions_script_path="${script_folder_path}/${COMMON_LIBS_FUNCTIONS
 echo "Common libs functions source script: \"${common_libs_functions_script_path}\"."
 source "${common_libs_functions_script_path}"
 
-common_app_functions_script_path="${script_folder_path}/${COMMON_APP_FUNCTIONS_SCRIPT_NAME}"
-echo "Common app functions source script: \"${common_app_functions_script_path}\"."
-source "${common_app_functions_script_path}"
+common_apps_functions_script_path="${script_folder_path}/${COMMON_APPS_FUNCTIONS_SCRIPT_NAME}"
+echo "Common app functions source script: \"${common_apps_functions_script_path}\"."
+source "${common_apps_functions_script_path}"
 
 # -----------------------------------------------------------------------------
 
@@ -239,7 +239,7 @@ then
   elif [ "${RELEASE_VERSION}" == "2.8.0-5" ]
   then
     QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse-dev"}
-    # QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"ee07085299a4ec1edc92453eef9b3c3bd0c4ab92"}
+    QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"b8a0a8bc9850acbf5763d2e5d526c250de6ff809"}
     QEMU_GIT_PATCH="qemu-2.8.0.git-patch"
 
     ZLIB_VERSION="1.2.11"
@@ -325,7 +325,7 @@ run_qemu
 
 # -----------------------------------------------------------------------------
 
-copy_gme_files
+copy_distro_files
 
 create_archive
 

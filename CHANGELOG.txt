@@ -1,6 +1,22 @@
 
 The following changes (in reverse order) were applied to the QEMU master branch:
 
+[2019-04-24]
+
+- v2.8.0-5 20190424 released
+
+[2019-04-10]
+
+- fix STM32F4 SR reset value
+
+[2019-02-26]
+
+- [#63] cortexm/mcu.c: use '-m size=kb'; use the value from the machine object, which can be overriden by command line options.
+- [#43] arm-semi.c: SYS_HEAPINFO returns all 0
+- [#39] vl.c: fix crash for unsupported board
+- add .vscode with build tasks and debug launchers
+- Makefile: add install-gme
+
 [2019-02-11]
 
 - v2.8.0-4-20190211 released

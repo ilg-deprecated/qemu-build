@@ -269,7 +269,7 @@ function strip_binaries()
   fi
 }
 
-function copy_gme_files()
+function copy_distro_files()
 {
   rm -rf "${APP_PREFIX}/${DISTRO_LC_NAME}"
   mkdir -p "${APP_PREFIX}/${DISTRO_LC_NAME}"

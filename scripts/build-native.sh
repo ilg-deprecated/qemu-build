@@ -77,9 +77,9 @@ common_libs_functions_script_path="${script_folder_path}/${COMMON_LIBS_FUNCTIONS
 echo "Common libs functions source script: \"${common_libs_functions_script_path}\"."
 source "${common_libs_functions_script_path}"
 
-common_app_functions_script_path="${script_folder_path}/${COMMON_APP_FUNCTIONS_SCRIPT_NAME}"
-echo "Common app functions source script: \"${common_app_functions_script_path}\"."
-source "${common_app_functions_script_path}"
+common_apps_functions_script_path="${script_folder_path}/${COMMON_APPS_FUNCTIONS_SCRIPT_NAME}"
+echo "Common app functions source script: \"${common_apps_functions_script_path}\"."
+source "${common_apps_functions_script_path}"
 
 # -----------------------------------------------------------------------------
 
