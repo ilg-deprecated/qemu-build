@@ -890,7 +890,8 @@ function do_glib()
         echo "Running glib make..."
 
         # Build.
-        make -j ${JOBS}
+        # make -j ${JOBS}
+        make
         if [ "${WITH_STRIP}" == "y" ]
         then
           make install-strip
