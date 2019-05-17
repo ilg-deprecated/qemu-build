@@ -222,6 +222,9 @@ function run_qemu()
 
   if [ "${TARGET_PLATFORM}" == "linux" ]
   then
+    # env
+    # LD_DEBUG=libs ldd "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
+    ldd "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
     "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" --version
   elif [ "${TARGET_PLATFORM}" == "darwin" ]
   then
