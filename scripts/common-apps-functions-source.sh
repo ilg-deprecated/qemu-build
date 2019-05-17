@@ -55,15 +55,19 @@ function do_qemu()
     xbb_activate
     xbb_activate_installed_dev
 
-    export CFLAGS="${XBB_CFLAGS} -Wno-format-truncation -Wno-incompatible-pointer-types -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
+    CFLAGS="${XBB_CFLAGS} -Wno-format-truncation -Wno-incompatible-pointer-types -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result"
 
-    export CPPFLAGS="${XBB_CPPFLAGS}"
+    CPPFLAGS="${XBB_CPPFLAGS}"
     if [ "${IS_DEBUG}" == "y" ]
     then 
-      export CPPFLAGS+=" -DDEBUG"
+      CPPFLAGS+=" -DDEBUG"
     fi
 
-    export LDFLAGS="${XBB_LDFLAGS_APP}"
+    LDFLAGS="${XBB_LDFLAGS_APP_STATIC} -v"
+
+    export CFLAGS
+    export CPPFLAGS
+    export LDFLAGS
 
     if [ "${TARGET_PLATFORM}" == "win32" ]
     then
@@ -150,7 +154,7 @@ function do_qemu()
 
         echo
         echo "Preparing libraries..."
-        patch_linux_elf_origin "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse 
+        patch_linux_elf_origin "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse"
 
         echo
         copy_dependencies_recursive "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" "${APP_PREFIX}/bin"
@@ -265,9 +269,11 @@ function strip_binaries()
       then
         ${CROSS_COMPILE_PREFIX}-strip "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse.exe" || true
         ${CROSS_COMPILE_PREFIX}-strip "${APP_PREFIX}/bin/"*.dll || true
-      else
-        strip "${APP_PREFIX}"/bin/qemu-system-gnuarmeclipse || true
+      elif [ "${TARGET_PLATFORM}" == "darwin" ]
+      then
+        strip "${APP_PREFIX}/bin/qemu-system-gnuarmeclipse" || true
       fi
+      # Do not strip on Linux
     )
   fi
 }

@@ -163,6 +163,8 @@ function do_libpng()
           bash "${SOURCES_FOLDER_PATH}/${LIBPNG_SRC_FOLDER_NAME}/configure" --help
 
           # --enable-shared needed by SDL2_image on CentOS 64-bit and Ubuntu.
+          # If really needed.
+          # --with-zlib-prefix="${LIBS_INSTALL_FOLDER_PATH}" 
           bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${LIBPNG_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
             \
@@ -397,6 +399,7 @@ function do_sdl2_image()
 
   # SDL2_IMAGE_VERSION="1.1"
   # SDL2_IMAGE_VERSION="2.0.1" # 2016-01-03
+  # SDL2_IMAGE_VERSION="2.0.3" # 2018-03-01
   # SDL2_IMAGE_VERSION="2.0.4" # 2018-10-31
 
   SDL2_IMAGE_SRC_FOLDER_NAME="SDL2_image-${SDL2_IMAGE_VERSION}"
@@ -843,7 +846,8 @@ function do_glib()
 
           # --disable-shared fails on macOS
           # --with-libiconv=gnu required on Linux
-          # --disble-static rewuired for Windows
+          # --disable-static required for Windows
+          # --enable-shared required for Linux (can not be used when making a PIE object; recompile with -fPIC) 
           # configure: error: Can not build both shared and static at the same time on Windows.
           bash ${DEBUG} "${SOURCES_FOLDER_PATH}/${GLIB_SRC_FOLDER_NAME}/configure" \
             --prefix="${LIBS_INSTALL_FOLDER_PATH}" \
