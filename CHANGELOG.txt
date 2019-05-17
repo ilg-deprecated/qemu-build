@@ -1,6 +1,10 @@
 
 The following changes (in reverse order) were applied to the QEMU master branch:
 
+[2019-05-17]
+
+- v2.8.0-6 20190517 released
+
 [2019-04-24]
 
 - v2.8.0-5 20190424 released

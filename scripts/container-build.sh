@@ -236,7 +236,7 @@ then
 
     PIXMAN_VERSION="0.34.0"
 
-  elif [ "${RELEASE_VERSION}" == "2.8.0-5" ]
+  elif [[ "${RELEASE_VERSION}" =~ 2\.8\.0-[56] ]]
   then
     QEMU_GIT_BRANCH=${QEMU_GIT_BRANCH:-"gnuarmeclipse-dev"}
     QEMU_GIT_COMMIT=${QEMU_GIT_COMMIT:-"b8a0a8bc9850acbf5763d2e5d526c250de6ff809"}
@@ -273,6 +273,9 @@ then
     # LIBXML2_VERSION="2.9.8"
 
     HAS_WINPTHREAD="y"
+  else
+    echo "Unsupported version ${RELEASE_VERSION}."
+    exit 1
   fi
 
   # ---------------------------------------------------------------------------
