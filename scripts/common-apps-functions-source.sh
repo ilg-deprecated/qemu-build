@@ -63,7 +63,7 @@ function do_qemu()
       CPPFLAGS+=" -DDEBUG"
     fi
 
-    LDFLAGS="${XBB_LDFLAGS_APP_STATIC} -v"
+    LDFLAGS="${XBB_LDFLAGS_APP_STATIC_GCC} -v"
 
     export CFLAGS
     export CPPFLAGS
