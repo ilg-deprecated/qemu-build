@@ -225,12 +225,6 @@ $ sudo rm -rf "${HOME}/Work"/qemu-*
 $ bash ~/Downloads/qemu-build.git/scripts/build.sh --all
 ```
 
-To build one of the previous versions:
-
-```console
-$ RELEASE_VERSION=2.8.0-3 bash ~/Downloads/qemu-build.git/scripts/build.sh --all
-```
-
 Several tens of minutes later, the output of the build script is a set of 
 4 files and their SHA signatures, created in the `deploy` folder:
 
